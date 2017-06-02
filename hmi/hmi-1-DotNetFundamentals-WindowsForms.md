@@ -4,6 +4,10 @@ title: HMI-1 C# .Net Fundamentals using Windows Forms
 date: 2017-05-12
 ---
 
+** Lecture Video **
+
+[![HMI 1 .Net Windows Forms Fundamentals](../assets/images/HMI-Portada-YouTube.jpg)](http://www.youtube.com/watch?v=13hdxEc5Ypo)
+
 1. Background Knowledge and Prerequisites
 1. Windows Forms Overview
 1. Creating a new Windows Forms Project
@@ -13,7 +17,6 @@ date: 2017-05-12
 1. User Input
 1. Debugging the code
 1. The Timer Class
-
 
 ## 1 Background Knowledge and Prerequisites 
 
