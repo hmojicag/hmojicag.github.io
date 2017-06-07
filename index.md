@@ -15,9 +15,9 @@ Wanna learn something? Just scroll down...
 
 This is the online course list instructed by me at FIME UANL. I hope you will have fun learning as much I had designing the courses.
 
-# [List of available courses](#header-1)
+## [List of available courses](#header-1)
 * [Human Machine Interface]({{ site.baseurl }}{% link hmi/index.md %}).
 * [Web Development using .Net Core 2]({{ site.baseurl }}{% link web-dev/index.md %}).
 
-# [Hazelnut Moodle Site](http://hmojica.ddns.net/moodle/)
+## [Hazelnut Moodle Site](http://hmojica.ddns.net/moodle/)
 The Hazelnut Learning Platform is powered by Moodle and is locate at: [HLearning](http://hmojica.ddns.net/moodle/)

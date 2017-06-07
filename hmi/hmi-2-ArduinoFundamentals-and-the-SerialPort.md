@@ -20,6 +20,7 @@ date: 2017-06-02
 I'm assuming you are already familiar at least with the basics of microcontrollers and electronics. If not I strongly suggest you to take the time and follow this tutorials **(and if you are one of my students, then it's a must)**. Feel free to skip information you are already familiar with:
 
 1. [Introduction to Microcontrollers](  https://ti.tuwien.ac.at/ecs/teaching/courses/mclu/theory-material/Microcontroller.pdf) Chapter 2. Microcontroller Components. Pages 11 to 72.
+1. [C Tutorial](http://www.cprogramming.com/tutorial/c-tutorial.html)
 1. [Installing Arduino on a Windows Machine](https://www.arduino.cc/en/Guide/Windows)
 1. [What's an Arduino](https://www.arduino.cc/en/Guide/Introduction)
 1. [Bare Minimum code needed](https://www.arduino.cc/en/Tutorial/BareMinimum)
@@ -162,11 +163,42 @@ In the next image there's a typical Arduino UNO board.
 Here is how the pins of the microcontroller (Atmega168) are mapped to the board terminals. This image was extracted from [here](https://www.arduino.cc/en/Hacking/PinMapping168). If you want to see the full schematic visit: [link](https://www.arduino.cc/en/uploads/Main/Arduino_Uno_Rev3-schematic.pdf).
 ![Atmega168 Pin Map](../assets/images/hmi-2-Atmega168PinMap2.png)
 
-Now let's explore a few
+So, how do we use an Arduino to control inputs and outputs? Just one answer: Very easy!
 
-### C coding for Arduino (just an Intro)
+Check the image above, you can see an Arduino has mapped most of the pins of the microcontroller to headers and they have put some numbers on them. Now lets think you have the next diagram:
 
-### How to upload the code to the Arduino Board
+...
+
+We want to turn on LEDs on pins 
+
+![Code Screenshot](../assets/images/hmi-2-Arduino-IO-2.png)
+
+```javascript
+void setup() {
+  pinMode(6, OUTPUT); // LED 1
+  pinMode(7, OUTPUT); // LED 2
+  pinMode(8, INPUT);  // PUSH BUTTON 1
+  pinMode(9, INPUT);  // PUCH BUTTON 2
+}
+
+void loop() {
+ if(digitalRead(8)) {
+   //If Push Button 1 is pressed
+   // Turn ON LED 1 and OFF LED 2
+   digitalWrite(6, HIGH);
+   digitalWrite(7, LOW);
+ }
+ 
+ if(digitalRead(9)) {
+   //If Push Button 2 is pressed
+   // Turn OFF LED 1 and ON LED 2
+   digitalWrite(6, LOW);
+   digitalWrite(7, HIGH);
+ }
+}
+```
+
+
 
 ### Example: Using multiple input/outputs
 
