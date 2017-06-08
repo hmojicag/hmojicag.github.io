@@ -3,3 +3,4 @@ repository: hmojicag/hmojicag.github.io
 title: Hazelnut Learning Site
 description: A non-profit site where you can learn useful technology stuff. By Hazael Mojica.
 permalink: /blog/:year/:month/:day/:title
+githuburl: https://hmojicag.github.io

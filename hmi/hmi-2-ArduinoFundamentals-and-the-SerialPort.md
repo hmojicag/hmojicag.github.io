@@ -146,7 +146,7 @@ One key word here is **Duty Cycle** or DC, the DC is measured in percentage of t
 
 In the next image you can see different PWM wave forms with different Duty Cycles, where a DC of 0 is basically 0v all the time and a DC of 50% (defined by the number 127) will keep a the signal on High state half the time.
 
-![PWM](../assets/images/hmi-2-IO-pwm-1.gif)
+![PWM](../assets/images/hmi-2-IO-pwm-1.jpg)
 
 > PWM signals are useful for a lot of things. Apart from their uses in simple d/a converters they can be used to implement ABS in cars, to dim LEDs or numeric displays, or for motor control (servos, stepper motors, speed control of dc motors).
 >
@@ -160,16 +160,22 @@ I'll use an [Arduino UNO](https://www.arduino.cc/en/Main/ArduinoBoardUno) which 
 In the next image there's a typical Arduino UNO board.
 ![Arduino UNO IO](../assets/images/hmi-2-Arduino-IO.jpg)
 
-Here is how the pins of the microcontroller (Atmega168) are mapped to the board terminals. This image was extracted from [here](https://www.arduino.cc/en/Hacking/PinMapping168). If you want to see the full schematic visit: [link](https://www.arduino.cc/en/uploads/Main/Arduino_Uno_Rev3-schematic.pdf).
+Here is how the pins of the microcontroller (Atmega168) are mapped to the board terminals, remember that the number printed in front of the Terminal/Header could not be the same as the Pin Number in the Atmega328, the creators of Arduino have abstracted the real pin numbers in order for you to be easy to program an Arduino Board and to make Portable all the code between different models.
+
+This image was extracted from [here](https://www.arduino.cc/en/Hacking/PinMapping168). If you want to see the full schematic visit: [link](https://www.arduino.cc/en/uploads/Main/Arduino_Uno_Rev3-schematic.pdf).
 ![Atmega168 Pin Map](../assets/images/hmi-2-Atmega168PinMap2.png)
 
-So, how do we use an Arduino to control inputs and outputs? Just one answer: Very easy!
+So, how do we use an Arduino to control inputs and outputs? Just one answer: Very easy! Lets think you have the next diagram:
 
-Check the image above, you can see an Arduino has mapped most of the pins of the microcontroller to headers and they have put some numbers on them. Now lets think you have the next diagram:
+![Arduino IO Ex 1](../assets/images/hmi-2-Arduino-IO-Ex-2.jpg)
 
-...
+And if you feel inspired and you want to build it, here is how it would look like in a Protoboard:
 
-We want to turn on LEDs on pins 
+![Arduino IO Ex 1](../assets/images/hmi-2-Arduino-IO-Ex-1.jpg)
+
+The goal is to press the Push Buttons and make the LEDs Turn On in a fashion way. So when you press Push 1 LED1 will turn on and LED2 will turn off. When you press Push 2 the LEDs will swap that state, LED1 will turn Off and LED2 will turn on.
+
+This is the code to do that:
 
 ![Code Screenshot](../assets/images/hmi-2-Arduino-IO-2.png)
 
@@ -178,7 +184,7 @@ void setup() {
   pinMode(6, OUTPUT); // LED 1
   pinMode(7, OUTPUT); // LED 2
   pinMode(8, INPUT);  // PUSH BUTTON 1
-  pinMode(9, INPUT);  // PUCH BUTTON 2
+  pinMode(9, INPUT);  // PUSH BUTTON 2
 }
 
 void loop() {
@@ -198,12 +204,27 @@ void loop() {
 }
 ```
 
+Take note that we are using very few code and there are some special functions you will be using very often:
+
+* `pinMode(pinNumber, MODE);` To declare a pin as INPUT or OUTPUT. [Ref Here](https://www.arduino.cc/en/Reference/pinMode).
+* `digitalWrite(pinNumber, STATE);` To make a pin have HIGH or LOW output signal. [Ref Here](https://www.arduino.cc/en/Reference/DigitalWrite).
+* `digitalRead(pinNumber)` Reads the value of a pin. Which could be HIGH (1) or LOW (0). [Ref Here](https://www.arduino.cc/en/Reference/DigitalRead).
+
+All these functions as you may have notice control the state of a single pin not the whole port, this is a peculiarity of Arduino, the Arduino compiler handles for you the boiler plate code to make reference a single pin instead of a complete port in order for you to easily use it. This is good or bad depending of what you need to accomplish.
+
+Feel free to implement the next examples if you think you need some more practice in order to understand the basics of Arduino IO:
+
+* [Arduino Button](https://www.arduino.cc/en/Tutorial/Button)
+* [Arduino State Change Detection](https://www.arduino.cc/en/Tutorial/StateChangeDetection)
+* [Arduino Blink Without Delay](https://www.arduino.cc/en/Tutorial/BlinkWithoutDelay)
+* [Arduino Analog Input](https://www.arduino.cc/en/Tutorial/AnalogInput)
+* [Arduino Debounce](https://www.arduino.cc/en/Tutorial/Debounce)
 
 
 ### Example: Using multiple input/outputs
 
 
-
+    
 ## The Serial Port
 
 ### What's a Serial Port

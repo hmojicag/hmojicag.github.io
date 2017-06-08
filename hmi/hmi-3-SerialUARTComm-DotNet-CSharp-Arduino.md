@@ -1,6 +1,6 @@
 ---
 layout: course
-title: HMI-3 Serial UART Communication: .Net C# and Arduino
+title: HMI-3 Serial UART Communication .Net C# and Arduino
 date: 2017-06-02
 ---
 
