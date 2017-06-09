@@ -50,9 +50,9 @@ Microcontrollers are used because they allow a piece of hardware to interact wit
 Imagine you want to build a "robot" (just imagine it...), you want this robot to be aware of it's environment, what I mean with this is that you want this robot to "see", "hear", "smell" and "feel" everything around it.
 You may want also to make this robot interact with the environment, you may want it to "walk" or at least "move" and avoid obstacles, or maybe you want to speak an order and make the robot obey, for example saying "make me a sandwich" will make the robot go to the fridge, fetch the ingredients and start making you a damn sandwich!!
 
-Well that wasn't very realistic right now, but a microcontroller can help you retrieving signals from the environment and cotrol actuators in order to make your little wall-e behave decently.
+Well that wasn't very realistic right now, but a microcontroller can help you retrieving signals from the environment and control actuators in order to make your little wall-e behave decently.
 
-The environment signals the micronctroller retrieve are the inputs, and logically, the signals sent to the actuators are the outputs.
+The environment signals the microcontroller retrieve are the inputs, and logically, the signals sent to the actuators are the outputs.
 
 **So, how exactly the IO of a microcontroller works?**
 
@@ -69,7 +69,7 @@ Let's see an example, in the next Image we have an Atmega microcontroller connec
 
 ![IO 1](../assets/images/hmi-2-IO-1.png)
 
-The Port E (All pins calle PEx) is connected to LEDs and the Port C is connected to a DIP Switch (just an array of buttons/switches). We are going to assume here that we have declared the **PORT E as output** and the **PORT C as inpu**t (for obvious reasons).
+The Port E (All pins called PEx) is connected to LEDs and the Port C is connected to a DIP Switch (just an array of buttons/switches). We are going to assume here that we have declared the **PORT E as output** and the **PORT C as inpu**t (for obvious reasons).
 
 So what should we do if we want to turn on all those LEDs? We will need to assign to the memory **PORT_E** a value equal to the binary number **11111111b** (xFF or 255).
 Why? Imagine each Pin of the port mapped to each one of the digits of that binary number, so in order to turn them all on we need to set them all to one.
@@ -180,6 +180,11 @@ This is the code to do that:
 ![Code Screenshot](../assets/images/hmi-2-Arduino-IO-2.png)
 
 ```javascript
+/*
+  Hazael Fernando Mojica Garcia
+  09/July/2017
+  Example: HMI-2-ArduinoIO-Simple
+*/
 void setup() {
   pinMode(6, OUTPUT); // LED 1
   pinMode(7, OUTPUT); // LED 2
@@ -222,7 +227,107 @@ Feel free to implement the next examples if you think you need some more practic
 
 
 ### Example: Using multiple input/outputs
+Now let's see a practical example using many inputs and outputs.
 
+The goals of this example are: 
+* control the movement of a Servo motor using a potentiometer. When the pot is set to give an output of 0V the degrees advanced in the servo will be 0° and when the pot output is 5V the servo will advance the full length of 180°.
+* Control the blinking interval of a LED using a push button. Each time the user presses the push button the LED will blink faster, starting from a 1sec period and up to a 10ms period.
+
+The protoboard view is in this picture
+![Multiple IO Example 1](../assets/images/hmi-2-IO-Multiple-Ex-1.jpg)
+
+And the schematic is:
+![Multiple IO Example 2](../assets/images/hmi-2-IO-Multiple-Ex-2.jpg)
+
+The Arduino Code is:
+
+```javascript
+/*
+  Hazael Fernando Mojica Garcia
+  09/July/2017
+  Example: HMI-2-ArduinoIO-Multi
+*/
+
+int pinServo = 3;
+int pinLED = 4;
+int pinPush = 5;
+int pinPotA = 0;
+int LEDState = 0;
+
+unsigned int intervalLED = 1000;
+unsigned int intervalPush = 500;
+unsigned int intervalServo = 100;
+
+unsigned long pastMillisLED = 0;
+unsigned long pastMillisServo = 0;
+unsigned long pastMillisPush = 0;
+
+unsigned long currentMillis = 0;
+
+void setup() {
+  pinMode(pinServo, OUTPUT);//PWM pin as output
+  pinMode(pinLED, OUTPUT);
+  pinMode(pinPush, INPUT);
+}
+
+void loop() {
+  currentMillis = millis();
+  
+  if((currentMillis - pastMillisLED) >= intervalLED) {
+    //This block will be executed each intervalLED ms
+    blinkLED();
+    pastMillisLED = currentMillis;
+  }
+  
+  if((currentMillis - pastMillisServo) >= intervalServo) {
+    //This block will be executed each intervalServo ms
+    moveServo();
+    intervalServo = currentMillis;
+  }
+  
+  if((currentMillis - pastMillisPush) >= intervalPush) {
+    //This block will be executed each intervalPush ms
+    changeBlinkInterval();
+    intervalPush = currentMillis;
+  }
+}
+
+void blinkLED() {
+  LEDState = 1 - LEDState;//Swap LED state
+  digitalWrite(pinLED, LEDState);//Blink LED
+}
+
+void moveServo() {
+  int potVal = analogRead(pinPotA);//potVal from 0 to 1023
+  analogWrite(pinServo, potVal/4);//Output PWM from 0 to 255 
+}
+
+void changeBlinkInterval() {
+  if(digitalRead(pinPush)) {
+    intervalLED -= 100;//Decrease 100ms
+    if(intervalLED <= 100) {
+      intervalLED = 1000; //Reset the Interval
+    }
+  }
+}
+```
+
+Mount everything in your Arduino and try it out.
+
+**Code Explained:**
+
+This code structure is based in time invervals, we want to be able to execute some code periodically, we don't want it to run everytime the main loop comes back again, that would be disastrous setting up the PWM for a Servo, we don't want to use delay functions either because it's a waste of processing resources and once the micro enters in a delay it cannot do anything else until it's done.
+
+What do we do then? In embedded software you normally would use a RTOS (Real Time Operative System) or Interruptions, the creators of Arduino actually use both inside Arduino's kernel code, but they decided not to let us touch them, instead they provide us with a function called `millis()`, this function returns an `unsigned long` number which represents the milliseconds elapsed since the arduino was turned on. So, using a clever `if statement` we can build some sort of task manager:
+
+```javascript
+if((currentMillisecond - pastMilliseconds) >= interval) {
+    //This code will be executed each interval milliseconds
+    pastMilliseconds = currentMillisecond;
+}
+```
+
+In the code above all variables represent milliseconds values, remember to use only `unsigned long` variables for this kind of work.
 
     
 ## The Serial Port
