@@ -13,7 +13,7 @@ date: 2017-06-02
 1. Basic Inputs and Outputs
 1. Arduino IO
 1. The Serial Port
-1. Sending Commands using the Serial Monitor
+1. Sending Commands to Arduino via Serial using the Serial Monitor
 1. Advanced Topic Sending a stream of commands and values to the Arduino
 
 ## Background Knowledge and Prerequisites
@@ -316,7 +316,7 @@ Mount everything in your Arduino and try it out.
 
 **Code Explained:**
 
-This code structure is based in time invervals, we want to be able to execute some code periodically, we don't want it to run everytime the main loop comes back again, that would be disastrous setting up the PWM for a Servo, we don't want to use delay functions either because it's a waste of processing resources and once the micro enters in a delay it cannot do anything else until it's done.
+This code structure is based in time invervals, we want to be able to execute some code periodically, we don't want it to run everytime the main loop comes back again, that would be disastrous setting up the PWM for a Servo, we don't want to use delay functions either because it's a waste of processing resources since once the micro enters in a delay routine it cannot do anything else until it's done.
 
 What do we do then? In embedded software you normally would use a RTOS (Real Time Operative System) or Interruptions, the creators of Arduino actually use both inside Arduino's kernel code, but they decided not to let us touch them, instead they provide us with a function called `millis()`, this function returns an `unsigned long` number which represents the milliseconds elapsed since the arduino was turned on. So, using a clever `if statement` we can build some sort of task manager:
 
@@ -329,15 +329,95 @@ if((currentMillisecond - pastMilliseconds) >= interval) {
 
 In the code above all variables represent milliseconds values, remember to use only `unsigned long` variables for this kind of work.
 
-    
+
 ## The Serial Port
 
-### What's a Serial Port
+Now we are going to talk about of the main the Serial Port, which is a valuable asset we need in order for our Arduino to have communication with other devices such a computer or other microcontroller.
 
-### The signal
+### So, What's a Serial Port?
+
+To answer this question I want you to know that there are multiple types of communication interfaces:
+
+>... microcontrollers generally contain several communication interfaces and sometimes even multiple instances of a particular interface, like two UART modules. The basic purpose of any such interface is to allow the microcontroller to communicate with other units, be they other microcontrollers, peripherals, or a host PC. The implementation of such interfaces can take many forms, but basically, interfaces can be categorized according to a hand-full of properties: They can be either serial or parallel, synchronous or asynchronous, use a bus or point-to-point communication, be full-duplex or half duplex, and can either be based on a master-slave principle or consist of equal partners.
+>
+> [Introduction to Microcontrollers P.79](  https://ti.tuwien.ac.at/ecs/teaching/courses/mclu/theory-material/Microcontroller.pdf)
+
+So a Serial Port is an interface that allows communication between to devices sending data sequentially, bit per bit, one at a time. As you can see this method only requires one data line, or one wire you might say, to send data, maybe another to receive data, one extra wire to share a voltage reference (GND) and maybe if the communication is synchronous a Clock wire.
+
+> Serial interfaces stream their data, one single bit at a time. These interfaces can operate on as little as one wire, usually never more than four.
+>
+> [Serial Communication Tutorial](https://learn.sparkfun.com/tutorials/serial-communication)
+
+Example of a serial interface, transmitting one bit every clock pulse. Just 2 wires required! (The Image is property of Sparkfun):
+![Serial Interface - Sparkfun](../assets/images/hmi-2-IO-Serial-1.png)
+
+
+### The UART
+
+The Universal Asynchronous Receiver Transmitter is one implementation of the Serial Interface, one which only uses two wires, TXD and RXD, for transmitting and receiving data accordingly.
+
+In order to make two devices communicate over a Serial UART Interface you need to set both using the same configuration:
+* Data bits
+* Synchronization bits
+* Parity bits
+* Baud rate
+
+**Baud Rate**
+This attribute specifies how fast the data is sent. It's expressed in bits-per-second (bps).
+
+The Baud Rate in the both devices must be the same, the typical values are: 1200, 4800, **9600**, **115200**.
+The higher the baud rate the faster the data is sent, but keep in mind the clock speed configuration in your micro, you could get errors in the data if the micro just can't keep up with high speeds of transmition.
+
+**Bits**
+Data over UART is sent in packets of bits, as you can see in the next image (property of [Sparkfun](https://learn.sparkfun.com/tutorials/serial-communication)).
+
+![Serial Interface 2 - Sparkfun](../assets/images/hmi-2-IO-Serial-2.png)
+
+The **synchronization bits** are used to mark the start and end of each package.
+The line is in High state when idle, so the **Start** bit is a 0 and the **Stop** bit is 1 making up the idle state again.
+
+The **Data** bits hold the info you want to send, they may vary from 5 to 9 bits but Arduino uses by default an 8 bit data packets.
+
+The **parity bits** are used for low-level error checking in the 5-9 data bits. You can configure them for odd or even check.
+> For example, assuming parity is set to even and was being added to a data byte like 0b01011101, which has an odd number of 1’s (5), the parity bit would be set to 1. Conversely, if the parity mode was set to odd, the parity bit would be 0.
+>
+> [Sparkfun - Serial Communication](https://learn.sparkfun.com/tutorials/serial-communication))
+
+They are not widely used and I won't need for this course so I'll skip a deeper explanation.
+
+** Hardware **
+
+Wiring an UART is easy, the bus consist just of two wires, one for transmitting, one for receiving and one reference (Image property of Sparkfun (property of [Sparkfun](https://learn.sparkfun.com/tutorials/serial-communication)).
+
+![Serial Interface 3 - Sparkfun](../assets/images/hmi-2-IO-Serial-3.png)
+
+**Note** that the RX wire of one device goes to the TX of the other and vice-versa.
+
+If you wanted to implement Serial communication between two arduino devices you would need at least to wire up everything as in the following image:
+
+![Serial Interface 4](../assets/images/hmi-2-IO-Serial-4.jpg)
+
+** Talking to a computer **
+
+If you haven't notice earlier, every Arduino has Serial communication with a computer out of the box (which is used for programming the arduino) and this is one of the main reasons we are using it in this course.
+
+It has everything prepared to allow easy Serial UART communication with a PC, if you check the Arduino UNO schematic below you can notice how the TXD and RXD pins of the ATMEGA8 micro are wired to another smaller one (ATMEGA8U2) which only purpose is to handle a USB stack to create a virtual Serial Port in a PC.
+
+![Serial Interface 5](../assets/images/hmi-2-IO-Serial-5.png)
+
+The same could have been accomplished using an [FTDI](http://www.ftdichip.com/) chip, but the creators of Arduino likes to complicate things up.
+
+So in summary if you want to allow any microcontroller to easily communicate over Serial UART with a computer you just need a UART able micro and an FTDU chip.
 
 ### Serial Communication in the Industry
 
+Many Serial protocols are widely used in the industry nowadays, and some of them we use at home too.
+
+For the automotive industry the CAN protocol is the leader, the MCU of the car communicates with all the devices a car has over a CAN network, the air bags, brakes, cameras, weigth sensors, door sensors etc...
+
+For communicating devices inside the same PCB board it's common to see protocols like IC<sup>2</sup> or SPI.
+
+And you should remember connecting your computer or Blu-Ray player to a TV over an HMI cable.
 
 ## Sending Commands to Arduino via Serial using the Serial Monitor
 
