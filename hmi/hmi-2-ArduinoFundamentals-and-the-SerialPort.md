@@ -421,6 +421,16 @@ And you should remember connecting your computer or Blu-Ray player to a TV over 
 
 ## Sending Commands to Arduino via Serial using the Serial Monitor
 
+In order to make a custom program that communicates over the Serial Port of a PC we need first to know how to handle serial communication.
+
+The Serial Monitor is a simple software you can use to send and receive charaters over the Serial port, it comes integrated in the Arduino IDE.
+
+(HERE PUT AN IMAGE OF THE SERIAL MONITOR)
+
+You can use any other tool to do this job, there are plenty available, just google them, I personally recommend Termite, but there's also the oldschool HyperTerminal, Real Term, PuTTY and many others.
+
+
+
 ### Example: Turn On/Off via Serial
 
 ### Example: Controlling multiple input/output's via Serial
