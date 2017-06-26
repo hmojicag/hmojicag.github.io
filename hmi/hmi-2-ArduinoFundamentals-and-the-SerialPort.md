@@ -14,7 +14,7 @@ date: 2017-06-02
 1. Arduino IO
 1. The Serial Port
 1. Sending Commands to Arduino via Serial using the Serial Monitor
-1. Advanced Topic Sending a stream of commands and values to the Arduino
+1. Advanced Topic: Sending a stream of commands and values to the Arduino
 
 ## Background Knowledge and Prerequisites
 I'm assuming you are already familiar at least with the basics of microcontrollers and electronics. If not I strongly suggest you to take the time and follow this tutorials **(and if you are one of my students, then it's a must)**. Feel free to skip information you are already familiar with:
@@ -230,7 +230,7 @@ Feel free to implement the next examples if you think you need some more practic
 Now let's see a practical example using many inputs and outputs.
 
 The goals of this example are: 
-* control the movement of a Servo motor using a potentiometer. When the pot is set to give an output of 0V the degrees advanced in the servo will be 0° and when the pot output is 5V the servo will advance the full length of 180°.
+* Control the movement of a Servo motor using a potentiometer. When the pot is set to give an output of 0V the degrees advanced in the servo will be 0° and when the pot output is 5V the servo will advance the full length of 180°.
 * Control the blinking interval of a LED using a push button. Each time the user presses the push button the LED will blink faster, starting from a 1sec period and up to a 10ms period.
 
 The protoboard view is in this picture
@@ -423,20 +423,202 @@ And you should remember connecting your computer or Blu-Ray player to a TV over 
 
 In order to make a custom program that communicates over the Serial Port of a PC we need first to know how to handle serial communication.
 
-The Serial Monitor is a simple software you can use to send and receive charaters over the Serial port, it comes integrated in the Arduino IDE.
+The **Serial Monitor** is a simple software utility you can use to send and receive charaters over the Serial port, it comes integrated in the Arduino IDE. You can open it clicking in the little magnifier glass icon in the right upper corner of the Arduino IDE:
 
-(HERE PUT AN IMAGE OF THE SERIAL MONITOR)
+![Serial Interface 6](../assets/images/hmi-2-IO-Serial-6.png)
 
-You can use any other tool to do this job, there are plenty available, just google them, I personally recommend Termite, but there's also the oldschool HyperTerminal, Real Term, PuTTY and many others.
+You 3 need things to make it work:
 
+1. Your Arduino is connected via USB to the computer
+1. Drivers are installed (your Arduino has a Serial port COMx assigned to it)
+1. In the Menu Tools -> Serial Port you have choosed the serial port your arduino is attached to
 
+You can use any other tool to do this job, there are plenty available, just google them, I personally recommend **Termite**, but there's also the oldschool HyperTerminal, Real Term, PuTTY and many others.
 
 ### Example: Turn On/Off via Serial
 
+In this easy example we will just turn on/off an LED sending a command via Serial.
+
+```javascript
+/*
+* Hazael Fernando Mojica García
+* 25/June/2017
+* HMI-2-Serial-ONOFF
+*/
+
+int pinLED = 2;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(pinLED, OUTPUT);
+}
+
+void loop() {
+  if(Serial.available()) {
+    switch(Serial.read()) {
+      case 'a':
+        digitalWrite(pinLED, HIGH);
+      break;
+      
+      case 'b':
+        digitalWrite(pinLED, LOW);
+      break;
+    }
+  }
+}
+```
+
+Here the protoboard view:
+![Serial Interface 8](../assets/images/hmi-2-IO-Serial-8.png)
+
+Here the schematic:
+![Serial Interface 9](../assets/images/hmi-2-IO-Serial-9.png)
+
+Now, a brief explanation:
+![Serial Interface 10](../assets/images/hmi-2-IO-Serial-10.png)
+
+In the main `setup()` function we need to initialize the Serial communication with a baud rate of 115200.
+
+In the main loop of the program we need to do something to handle "commands" received by serial. Using the `Serial.available()` function, which returns true or false depending of wether we have a character in the serial buffer or not, we will be sure we need to handle a new income command and with `Serial.read()` we get that one character from that buffer and immediately we process it inside a `switch statement`.
+
+So, once you have everything connected to the protoboard, plug the arduino to the computer and open the **Serial monitor**, send an **'a'** and watch how the LED turns on, now send **'b'** and it should turn off.
+
+![Serial Interface 11](../assets/images/hmi-2-IO-Serial-11.jpg)
+
+**NOTE**: Once you click the Serial Monitor, wait for it 1 sec to 'warm up' before sending anything, each time you open it the Arduino Board gets rebooted, so it takes its time to answer. Also when I say you should send 'a' I mean you just send **a**, ignore the apostrophe (').
+
 ### Example: Controlling multiple input/output's via Serial
 
+Now let's do some more awesome stuff, using the same hardware setup as in the example **"Using multiple input/outputs"** we are going to add Serial communication magic to make the project controllable over the Serial Monitor.
+
+We are going to use the same structure as the previous example: sending individual commands over the serial port with the arduino always ready to catch and execute them on the fly.
+
+Here the code:
+
+```javascript
+/*
+* Hazael Fernando Mojica García
+* 25/June/2017
+* HMI-2-Serial-Multi
+*/
+
+int pinServo = 3;
+int pinLED = 4;
+int pinPush = 5;
+int pinPotA = 0;
+
+int pwmVal = 0;
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(pinServo, OUTPUT);//PWM pin as output
+  pinMode(pinLED, OUTPUT);
+  pinMode(pinPush, INPUT);
+}
+
+void loop() {
+  if(Serial.available()) {
+    switch(Serial.read()) {
+      case 'a'://Turn On LED
+        setLEDval(1);
+      break;
+      
+      case 'b'://Turn Off LED
+        setLEDval(0);
+      break;
+      
+      case 'c'://Increase servo PWM
+        increaseServo();
+      break;
+      
+      case 'd'://Decrease servo PWM
+        decreaseServo();
+      break;
+
+      case 'e'://Read Digital Val
+        readDigitalVal();
+      break;
+
+      case 'f'://Read Analog Value
+        readAnalogVal();
+      break;
+    }
+  }
+}
+
+void setLEDval(int stat) {
+  if(stat) {
+    digitalWrite(pinLED, HIGH);
+    Serial.println("LED ON");
+  } else {
+    digitalWrite(pinLED, LOW);
+    Serial.println("LED OFF");
+  }
+}
+
+void increaseServo() {
+  pwmVal += 10;
+  if(pwmVal > 255) {
+    pwmVal = 255;
+  }
+  setPWMVal();
+}
+
+void decreaseServo() {
+  pwmVal -= 10;
+  if(pwmVal < 0) {
+    pwmVal = 0;
+  }
+  setPWMVal();
+}
+
+void setPWMVal() {
+  analogWrite(pinServo, pwmVal);
+  Serial.print("PWM val: ");
+  Serial.println(pwmVal);
+}
+
+void readDigitalVal() {
+  if(digitalRead(pinPush)) {
+    Serial.println("Push val: HIGH");
+  } else {
+    Serial.println("Push val: LOW");
+  }
+}
+
+void readAnalogVal() {
+  //analogRead(pinPotA) will return a value between
+  //0 and 1023, dividing it by 4 we made it fit in 8 bits
+  Serial.print("Analog val: ");
+  Serial.println(analogRead(pinPotA)/4);
+}
+```
+
+You can test this program by opening the Serial Monitor and sending the characters 'a', 'b', 'c', 'd', 'e', 'f' one by one and waiting for the proper response, you would get something like:
+
+![Serial Interface 12](../assets/images/hmi-2-IO-Serial-12.png)
+
+## Advanced Topic: Sending a stream of commands and values to the Arduino
+
+So far we've been sending individual commands to the arduino, but these commands are finite, you can make up to 256 different commands and sometimes that would not be enough for the requeriments of your project.
+
+For example, let's say you want to set up the PWM that controlls a Servo Motor by sending the value directly over Serial. Using the previous structure we had before you have two options:
+
+1. Increase or decrease the pwm value until you have what you want, if a computer software is the one sending the command via Serial, then it will need to send an "increase" or "decrease" command, wait for the reply and then keep doing that until the desired value is reached.
+1. Use the 8bit character to set the PWM value. This is faster, but you won't be able to send anything else over the Serial Port.
+
+There are plenty of solutions for this problem, some of them with better performance compared with the solution I give here, anyway here we go!
+
+We need to send a "command" and a "value" to the Arduino over Serial, so instead of sending just an 8bit number that represents a simple command, we will send a stream of characters. 
+
+So, instead of sending just 'a', 'b', 'c' now we will send: **"1-225"** where **1** is the command number and **225** the value attached to it.
+
+In order to separate a unique command-value pair from others we will use a '&' character. Finally the stream will look like: **"1-225&2-30&1-1023&3-1&3-0&1-10"**
+As you can see it looks pretty ordered, command 1 with a value of 225 followed by command 2 with a value of 30, again command 1 changing with a value of 1023 and so forth.
+
+Now let's see the Arduino code that can handle a stream of characters like that:
 
 
-## Advanced Topic Sending a stream of commands and values to the Arduino
+
 
 ### Example: Controlling multiple input/output's via Serial using a stream of commands
