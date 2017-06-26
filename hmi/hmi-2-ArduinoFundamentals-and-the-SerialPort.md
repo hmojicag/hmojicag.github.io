@@ -469,10 +469,10 @@ void loop() {
 ```
 
 Here the protoboard view:
-![Serial Interface 8](../assets/images/hmi-2-IO-Serial-8.png)
+![Serial Interface 8](../assets/images/hmi-2-IO-Serial-8.jpg)
 
 Here the schematic:
-![Serial Interface 9](../assets/images/hmi-2-IO-Serial-9.png)
+![Serial Interface 9](../assets/images/hmi-2-IO-Serial-9.jpg)
 
 Now, a brief explanation:
 ![Serial Interface 10](../assets/images/hmi-2-IO-Serial-10.png)
@@ -616,9 +616,168 @@ So, instead of sending just 'a', 'b', 'c' now we will send: **"1-225"** where **
 In order to separate a unique command-value pair from others we will use a '&' character. Finally the stream will look like: **"1-225&2-30&1-1023&3-1&3-0&1-10"**
 As you can see it looks pretty ordered, command 1 with a value of 225 followed by command 2 with a value of 30, again command 1 changing with a value of 1023 and so forth.
 
-Now let's see the Arduino code that can handle a stream of characters like that:
-
-
+Now let's see the Arduino code that can handle a stream of characters like that controlling multiple IO in the next example.
 
 
 ### Example: Controlling multiple input/output's via Serial using a stream of commands
+
+Using the same hardware setup as in the example **"Using multiple input/outputs"** load the next program to the Arduino:
+
+```javascript
+/*
+* Hazael Fernando Mojica García
+* 25/June/2017
+* HMI-2-Serial-Stream
+*/
+
+int pinServo = 3;
+int pinLED = 4;
+int pinPush = 5;
+int pinPotA = 0;
+
+//A buffer to store the incoming serial data
+String commandBuffer = "";
+String valueBuffer = "";
+int appendStatus = 0;      //0 No append
+                           //1 Append to command
+                           //2 Append to value
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(pinServo, OUTPUT);//PWM pin as output
+  pinMode(pinLED, OUTPUT);
+  pinMode(pinPush, INPUT);
+}
+
+void loop() {
+  readSerialBuffer();
+}
+
+void readSerialBuffer() {
+  if(Serial.available()) {    
+    char character = Serial.read();
+    if(character == '&') {
+      //We got a & separator
+      //Execute the last command in buffer if valid
+      executeCommand();
+      appendStatus = 1;
+    } else if (character == '-') {
+      appendStatus = 2;
+    } else {
+      append2Buffer(character);
+    }
+  }
+}
+
+void append2Buffer(char val2append) {
+  if(appendStatus == 1) {
+    commandBuffer += val2append;
+  } else if (appendStatus == 2) {
+    valueBuffer += val2append;
+  }
+}
+
+void executeCommand() {
+  int command = commandBuffer.toInt();
+  int value = valueBuffer.toInt();
+  executeCommandImpl(command, value);
+  commandBuffer = "";
+  valueBuffer = "";
+}
+
+void executeCommandImpl(int command, int value) {
+  //By convention the command 0 is an invalid command
+  switch(command) {
+    case 1://set LED
+      setLEDval(value);
+    break;
+    
+    case 2://set servo PWM
+      setPWMVal(value);
+    break;
+  
+    case 3://Read Digital Val
+      readDigitalVal();
+    break;
+  
+    case 4://Read Analog Value
+      readAnalogVal();
+    break;
+  }
+}
+
+void setLEDval(int stat) {
+  if(stat) {
+    digitalWrite(pinLED, HIGH);
+    Serial.println("LED ON");
+  } else {
+    digitalWrite(pinLED, LOW);
+    Serial.println("LED OFF");
+  }
+}
+
+void setPWMVal(int val) {
+  analogWrite(pinServo, val);
+  Serial.print("PWM val: ");
+  Serial.println(val);
+}
+
+void readDigitalVal() {
+  if(digitalRead(pinPush)) {
+    Serial.println("Push val: HIGH");
+  } else {
+    Serial.println("Push val: LOW");
+  }
+}
+
+void readAnalogVal() {
+  //analogRead(pinPotA) will return a value between
+  //0 and 1023, dividing it by 4 we made it fit in 8 bits
+  Serial.print("Analog val: ");
+  Serial.println(analogRead(pinPotA)/4);
+}
+```
+
+**Test** it opening the Serial Monitor and sending commands in the format: `&c-v&`
+where **c** is the command number and **v** the value, for example to turn on the LED you need to send `&1-1&`, and to turn it off `&1-0&`.
+
+For sending multiple values just concatenate the commands:
+`&1-1&2-128&3-0&4-0&`
+The last stream will turn on the LED, set the PWM to 128, read the status of the push button and the value of the ADC.
+
+**Notice** how for commands 3 and 4, even when they do not need a value it's clearer if you pass some number, like '0', just to make all the commands look uniform, of course you can always send `&3-&4-&` but it looks ugly.
+
+![Serial Interface 13](../assets/images/hmi-2-IO-Serial-13.png)
+
+#### **Explained**
+So how exactly the last program works?, is it magic?, maybe...
+
+Remember we are sending a stream of characters with the next format:
+`&1-1&2-128&3-0&4-0&`
+Also be aware that communications sometimes fails and characters are lost (specially if you are using a Bluetooth dongle serial adapter), so in the end the Arduino could receive something like:
+`-1&2-128&3-0&4-0&3` or
+`1&2-128&30&4-0&&`
+Hopefully I designed it robust enough to keep it working even in such awful conditions.
+
+**readSerialBuffer()**
+
+So, we have the main loop function which only job is to be waiting for income data from the Serial port calling the `readSerialBuffer()` function. Look a this function closely, what is it doing?, it does two things:
+1. Read one single character from the serial buffer
+1. Take a decision based on the character:
+  1. It's a '&'?, then it means:
+    1. The next characters (up to a '-') represent the command portion of a command-value pair.
+    1. We are finishing a command-value pair, go to **execute the last command stored** in the 'command buffer string'.
+  1. It's a '-'?, then it means the next characters (up to a '&') represent the value portion of a command-value pair.
+  1. It's a number (or at least not '&' nor '-'), store it in the current active buffer: "command buffer" or "value buffer".
+  
+Note that I refer as **buffer** to the `String variables`, why? Because it sounds great!! Also because a buffer is like a stack of data, a place where you can store information for later consumption, I'm using Strings to accomplish this job because of the new utility inside the Arduino libraries for covnerting Strings to Integers, but you could perfectly adapt a simple char array or make a Linked List or parse the data as it comes.
+
+
+**executeCommand()**
+
+Now, this function will be executed each time a '&' character is sent over serial.
+The command to be executed is the last command stored in the "command buffer string", after that it will blank out the command and value buffers to be ready for the next command.
+
+It uses the function `.toInt()` for converting the string representation of a command and a value to integers. So a command "1" will be 1, a value "128" will be 128.
+
+Finally it calls `executeCommandImpl(int command, int value)` which actually executes the command: turn on/off the led, set pwm, retrieve analog value etc...
