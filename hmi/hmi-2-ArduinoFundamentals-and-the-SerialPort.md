@@ -616,8 +616,9 @@ So, instead of sending just 'a', 'b', 'c' now we will send: **"1-225"** where **
 In order to separate a unique command-value pair from others we will use a '&' character. Finally the stream will look like: **"1-225&2-30&1-1023&3-1&3-0&1-10"**
 As you can see it looks pretty ordered, command 1 with a value of 225 followed by command 2 with a value of 30, again command 1 changing with a value of 1023 and so forth.
 
-Now let's see the Arduino code that can handle a stream of characters like that controlling multiple IO in the next example.
+Now let's see the Arduino code that can handle a stream of characters for controlling multiple IO in the next example.
 
+**NOTE:** I used a String object, if your not sure how to use a String in the C code for Arduino please visit: [Arduino String](https://www.arduino.cc/en/Reference/String)
 
 ### Example: Controlling multiple input/output's via Serial using a stream of commands
 
