@@ -231,7 +231,7 @@ Now let's see a practical example using many inputs and outputs.
 
 The goals of this example are: 
 * Control the movement of a Servo motor using a potentiometer. When the pot is set to give an output of 0V the degrees advanced in the servo will be 0° and when the pot output is 5V the servo will advance the full length of 180°.
-* Control the blinking interval of a LED using a push button. Each time the user presses the push button the LED will blink faster, starting from a 1sec period and up to a 10ms period.
+* Control the blinking interval of a LED using a push button. Each time the user presses the push button the LED will blink faster, starting from a 2sec period and up to a 50ms period.
 
 The protoboard view is in this picture
 ![Multiple IO Example 1](../assets/images/hmi-2-IO-Multiple-Ex-1.jpg)
