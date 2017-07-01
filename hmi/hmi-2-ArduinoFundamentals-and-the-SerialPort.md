@@ -248,13 +248,14 @@ The Arduino Code is:
   Example: HMI-2-ArduinoIO-Multi
 */
 
-int pinServo = 3;
+int pinServo = 10;
 int pinLED = 4;
-int pinPush = 5;
+int pinPush = 3;
 int pinPotA = 0;
 int LEDState = 0;
+int pushState = 0;
 
-unsigned int intervalLED = 1000;
+unsigned int intervalLED = 2000;
 unsigned int intervalPush = 500;
 unsigned int intervalServo = 100;
 
@@ -303,12 +304,16 @@ void moveServo() {
 }
 
 void changeBlinkInterval() {
-  if(digitalRead(pinPush)) {
-    intervalLED -= 100;//Decrease 100ms
-    if(intervalLED <= 100) {
-      intervalLED = 1000; //Reset the Interval
+  int newPushState = digitalRead(pinPush);
+  if(pushState && !newPushState) {
+    //Change interval when the user
+    //is no more pressing the button
+    intervalLED -= 50;//Decrease 50ms
+    if(intervalLED < 50) {
+      intervalLED = 2000; //Reset the Interval
     }
   }
+  pushState = newPushState;
 }
 ```
 
