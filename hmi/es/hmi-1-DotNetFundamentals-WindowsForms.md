@@ -22,15 +22,15 @@ date: 2017-05-12
 
 Para seguir este curso necesitaras algunos conocimientos básicos, principalmente habilidades básicas de programación y al menos alguna experiencia en C#.
 
-> C# es un lenguaje para la programación profesional. C# (pronunciado C sharp) es un lenguaje de programacion diseñado para la construccion de una amplia gama de aplicaciones empresariales que se ejecuta con el Framework .NET.
+> C# es un lenguaje para la programación profesional. C# (pronunciado C sharp) es un lenguaje de programación diseñado para la construcción de una amplia gama de aplicaciones empresariales que se ejecuta con el Framework .NET.
 > El objetivo de C# es proporcionar un lenguaje simple, seguro, moderno, orientado a objetos, alto rendimiento , robusto y duradero para el desarrollo de .NET.
 > Permite a los desarrolladores crear soluciones para la gama mas amplia de clientes, incluyendo aplicaciones web, aplicaciones basadas en Microsoft Windows Forms, y dispositivos de clientes inteligentes y delgados.
 >
 > [Tuturial y código fuente de C#](http://csharp.net-informations.com/)
 
-Les sugiero que lean y hagan los ejemplos de las paginas siguientes **(Y si eres uno de mis estudiantes, entonces es una necesidad porque tendrá que contestar un cuestionario acerca de esto)**:
+Les sugiero que lean y hagan los ejemplos de las paginas siguientes **(Y si eres uno de mis estudiantes, es obligatorio, porque tendrás que contestar un cuestionario acerca de esto)**:
 
-1. [Aplicaión basada en consolo de C#](http://csharp.net-informations.com/overview/csharp-console-application.htm)
+1. [Aplicaión basada en consola de C#](http://csharp.net-informations.com/overview/csharp-console-application.htm)
 1. [Como utilizar las sentencias if else en C#](http://csharp.net-informations.com/statements/csharp-if-else.htm)
 1. [Como utilizar loop en C#](http://csharp.net-informations.com/statements/csharp-for-loop.htm)
 1. [Como utilizar foreach loop en C#](http://csharp.net-informations.com/statements/csharp-foreach-loop.htm)
@@ -38,7 +38,7 @@ Les sugiero que lean y hagan los ejemplos de las paginas siguientes **(Y si eres
 1. [Como utilizar las sentencias del caso switch en C#](http://csharp.net-informations.com/statements/csharp-switch-case.htm)
 1. Lee sólo un poco de programación orientada a objetos, no es necesario comprender por completo el alcancede este curso, pero puede resultar útil algún día [Progrmación Orientada a Objetos](https://docs.microsoft.com/en-us/dotnet/articles/csharp/programming-guide/concepts/object-oriented-programming)
 
-El programa que necesita tener instalado debe ser cualquier versión de Visual Studio IDE, Recomiendo la versión community del último Visual Studio: [Visual Studio Community 2017](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15)
+El software que necesita tener instalado debe ser cualquier versión de Visual Studio IDE, Recomiendo la versión community del último Visual Studio: [Visual Studio Community 2017](https://www.visualstudio.com/thank-you-downloading-visual-studio/?sku=Community&rel=15)
 
 ## 2 Visión general de Windows Forms
 
