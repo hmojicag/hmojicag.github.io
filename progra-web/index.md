@@ -16,3 +16,4 @@ This is the main site of the course "Web Development" I teach in FIME UANL. Have
 * [Slides](https://drive.google.com/drive/folders/0B3WC4CiccSmVeEN2WVBNN1owQkE?usp=sharing)
 * [Books](https://drive.google.com/drive/folders/0B3WC4CiccSmVcUR6STNqMUgtUTg?usp=sharing)
 * [How to Sign Up in Moodle](https://docs.google.com/document/d/1z3NbPut3HGVdspBxTaQPQNATQl1WXr6cgVhIsQG4b3w/edit?usp=sharing)
+* [FB Group](https://www.facebook.com/groups/ProgramacionWEBFIME/)
