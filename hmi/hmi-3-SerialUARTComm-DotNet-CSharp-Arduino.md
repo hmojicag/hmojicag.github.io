@@ -233,7 +233,7 @@ Here is an example image of the GUI working:
 
 Now, we don't actually want to push the button each time we want to read something from the Serial Port, what about building a program that automatically sends the read command to the arduino in order to get the analog signal value?
 
-You can find the code in GitHub: []()
+You can find the code in GitHub: [https://github.com/hmojicag/hmojicag-hmi-examples/tree/master/HMI3-Ex2](https://github.com/hmojicag/hmojicag-hmi-examples/tree/master/HMI3-Ex2)
 
 The code for the Arduino changed slightly, I have only deleted the Digital Read command. For this example the only thing that the PC will receive by the Serial Port is the analog port value, if we try to send two different values, the value from the digital pin and the value from the analog port we won't be able to differenciate one from te other (at least not in the way we are doing it now).
 
