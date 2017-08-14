@@ -6,7 +6,7 @@ date: 2017-06-02
 
 ** Lecture Video **
 
-[![HMI-2 Arduino Fundamentals and the Serial Port](../assets/images/HMI-Portada-YouTube.jpg)](http://www.youtube.com/watch?v=)
+[![HMI-2 Arduino Fundamentals and the Serial Port](../assets/images/HMI-Portada-YouTube.jpg)](https://www.youtube.com/watch?v=tBhntAFtTRA&t=1s)
 
 1. Background Knowledge and Prerequisites
 1. The Arduino Board
