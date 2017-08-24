@@ -8,6 +8,7 @@ date: 2017-05-12
 
 This is the main site of the course "Web Development" I teach in FIME UANL. Have Fun
 
+A tale about how programming was made in the era of punched cards: [Computer History](http://www.columbia.edu/cu/computinghistory/fisk.pdf)
 
 ## This Section is for FIME UANL Students Only
 
