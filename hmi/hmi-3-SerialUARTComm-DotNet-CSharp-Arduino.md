@@ -6,7 +6,7 @@ date: 2017-07-31
 
 ** Lecture Video **
 
-[![HMI-3 Serial UART Communication: .Net C# and Arduino](../assets/images/HMI-Portada-YouTube.jpg)](http://www.youtube.com/watch?v=)
+[![HMI-3 Serial UART Communication: .Net C# and Arduino](../assets/images/HMI-Portada-YouTube.jpg)](https://www.youtube.com/watch?v=QNLr-3TJWYI)
 
 1. Overview
 1. Assembling the Arduino Board
