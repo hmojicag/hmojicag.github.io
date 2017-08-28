@@ -3,6 +3,9 @@ layout: course
 title: HMI-4 .Net C# and Arduino Good Practices using the Serial Port
 date: 2017-08-22
 ---
+** Lecture Video **
+
+[![HMI 4 .Net C# and Arduino Good Practices using the Serial Port ](../assets/images/HMI-Portada-YouTube.jpg)](https://www.youtube.com/watch?v=s04smdvvE8Q)
 
 1. Overview
 1. Retrieving a list of available Serial Ports.  Example 1
@@ -244,7 +247,7 @@ void readAnalogVal() {
 How do we use it?
 
 Load the sketch to your Arduino, and open the Serial Monitor.
-If you send the stream of data: `"&1-1&1-1&2-100&2-200&2-0&3-0&4-0&"`
+If you send the stream of data: `"&1-1&1-0&2-100&2-200&2-0&3-0&4-0&"`
 
 ![HMI4-Ex2-1](../assets/images/hmi-4-Ex2-1.png)
 
