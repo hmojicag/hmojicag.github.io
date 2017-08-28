@@ -11,7 +11,7 @@ This is the main page for the Human Machine Interface course I teach in FIME UAN
 1. [HMI-1 C# .Net Fundamentals using Windows Forms]({{ site.baseurl }}{% link hmi/hmi-1-DotNetFundamentals-WindowsForms.md %})
 2. [HMI-2 Arduino Fundamentals and the Serial Port]({{ site.baseurl }}{% link hmi/hmi-2-ArduinoFundamentals-and-the-SerialPort.md %})
 3. [HMI-3 Serial UART Communication: .Net C# and Arduino]({{ site.baseurl }}{% link hmi/hmi-3-SerialUARTComm-DotNet-CSharp-Arduino.md %})
-4. [HMI-4 .Net C# and Arduino Good Practices using the Serial Port]({{ site.baseurl }}{% link hmi/hmi-4-DotNet-CSharp-Arduino-GoodPractices %})
+4. [HMI-4 .Net C# and Arduino Good Practices using the Serial Port]({{ site.baseurl }}{% link hmi/hmi-4-DotNet-CSharp-Arduino-GoodPractices.md %})
 5. HMI-5 Designing an intuitive GUI
 
 
