@@ -1,19 +1,15 @@
 ---
 layout: course
 title: HMI-5 Designing an intuitive GUI
-date: 2017-06-02
+date: 2017-10-09
 ---
 
-** Lecture Video **
+Designing a successful GUI is an art, we need knowledge of many different areas, hopefully for us Microsoft has written some guidelines to help us in our designing process.
 
-[![HMI-5 Designing an intuitive GUI](../assets/images/HMI-Portada-YouTube.jpg)](http://www.youtube.com/watch?v=)
+[Design applications for the Windows desktop](https://developer.microsoft.com/en-us/windows/desktop/design)
 
-1. Overview
-1. What "intuitive" means
-1. Tips and Tricks for UX Design
-1. Example: Giving some "intuitive-ness" to your GUI
+For this activity we are going to focus our efforts in three aspects of the **UX** (User Experience), which is the group of conventions and best practices for building awesome User Interfaces:
 
-
-http://www.uxdesignedge.com/2010/06/intuitive-ui-what-the-heck-is-it/
-
-Bottlenecks: Aligning UX Design with User Psychology https://link.springer.com/book/10.1007/978-1-4842-2580-6
+* [How to design a great user experience for desktop applications](https://msdn.microsoft.com/library/windows/desktop/dn742462.aspx)
+* [Fonts](https://msdn.microsoft.com/en-us/library/windows/desktop/dn742483(v=vs.85).aspx)
+* [Layout](https://msdn.microsoft.com/en-us/library/windows/desktop/dn742486(v=vs.85).aspx)
