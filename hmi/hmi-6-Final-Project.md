@@ -47,6 +47,16 @@ In order to make it easier for you to have finished the project in time here's a
 **Full Board:** [PDF]({{ site.baseurl }}{% link assets/docs/ArduinoShield-Board-Full.pdf %})
 ![Final Project Board](../assets/images/hmi-6-5.jpg)
 
+**BOM**
+* 1x PCB; PC-10X10
+* 1x KIT HEADER FOR ARDUINO SHIELD; HEADER-1
+* 3x TERMINALS 3 Screws; TRT-03
+* 5x TERMINALS 2 Screws; TRT-02
+* 2x MICROSWITCH PUSH MINI 1 MM 4 PINS; PUSH-1
+* 2x RESISTOR 330 OHM (1/4, 1/8 watt); RC-330E/1/8
+* 2x RELAY (SPDT) 5DVC COIL; RAS-0510
+* 2x DIODE 100V 75MA; 1N4148
+
 Some useful lectures:
 * [Home Automation](https://en.wikipedia.org/wiki/Home_automation)
 * [Sparkfun Relay Tutorial](https://www.sparkfun.com/tutorials/119)
