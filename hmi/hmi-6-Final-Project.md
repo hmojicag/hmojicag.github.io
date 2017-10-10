@@ -54,7 +54,7 @@ Some useful lectures:
 ### PCB Prototyping
 
 Do you want the PCB board and all the components ready to use? Contact:
-[Field Effect Electronics](https://www.facebook.com/mojica.hazael)
+[Field Effect Electronics](https://www.facebook.com/FieldEffectElectronics)
 
 ### Evaluation
 
