@@ -50,12 +50,18 @@ In order to make it easier for you to have finished the project in time here's a
 **BOM**
 * 1x PCB; PC-10X10
 * 1x KIT HEADER FOR ARDUINO SHIELD; HEADER-1
-* 3x TERMINALS 3 Screws; TRT-03
+* 1x TERMINALS 3 Screws; TRT-03
 * 5x TERMINALS 2 Screws; TRT-02
 * 2x MICROSWITCH PUSH MINI 1 MM 4 PINS; PUSH-1
-* 2x RESISTOR 330 OHM (1/4, 1/8 watt); RC-330E/1/8
-* 2x RELAY (SPDT) 5DVC COIL; RAS-0510
+* 5x RESISTOR 330 OHM (1/4, 1/8 watt); RC-330E/1/8
+* 1x RESISTOR 1 KOHM (1/4, 1/8 watt); RC-1k/1/8
+* 1x RELAY (SPDT) 5DVC COIL; RAS-0510
 * 2x DIODE 100V 75MA; 1N4148
+* 2x LED Green DIP 5mm
+* 1x TIP122 Darlington TO-220
+* 1x Ceramic Capacitor 0.1uF
+* 1x Potentiomenter 10kohm
+* 1x DHT11 Temperature/Humidity sensor
 
 Some useful lectures:
 * [Home Automation](https://en.wikipedia.org/wiki/Home_automation)
@@ -73,6 +79,6 @@ Do you want the PCB board and all the components ready to use? Contact:
 * 10% High Voltage output Working Full
 * 10% PWM driven device Working Full
 * 10% Enviromental Data via ADC working Full
-* 10% 2 Button Commanded Inputs working Full
+* 10% Buttons and Dial Commanded Inputs working Full
 
 A Report in PDF must be loaded into Moodle.
