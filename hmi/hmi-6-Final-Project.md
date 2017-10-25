@@ -66,6 +66,10 @@ In order to make it easier for you to have finished the project in time here's a
 Some useful lectures:
 * [Home Automation](https://en.wikipedia.org/wiki/Home_automation)
 * [Sparkfun Relay Tutorial](https://www.sparkfun.com/tutorials/119)
+* [Tutorial Motor Control](http://www.instructables.com/id/Use-Arduino-with-TIP120-transistor-to-control-moto/)
+* [Tutorial Power Control](http://bildr.org/2011/03/high-power-control-with-arduino-and-tip120/)
+* [DTH11 Library for Arduino](https://playground.arduino.cc/Main/DHT11Lib)
+* [Tutorial DTH11 with Arduino](http://www.circuitbasics.com/how-to-set-up-the-dht11-humidity-sensor-on-an-arduino/)
 
 ### PCB Prototyping
 
@@ -75,7 +79,7 @@ Do you want the PCB board and all the components ready to use? Contact:
 ### Evaluation
 
 * 30% GUI (minimum standards)
-* 30% Hardware (Clean and well )
+* 30% Hardware (Clean and well build)
 * 10% High Voltage output Working Full
 * 10% PWM driven device Working Full
 * 10% Enviromental Data via ADC working Full
