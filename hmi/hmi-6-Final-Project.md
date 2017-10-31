@@ -34,7 +34,7 @@ Some examples of an acceptable GUI would be:
 
 ![Final Project GUI 2](../assets/images/hmi-6-2.png)
 
-### Multiple IO Break Out Board and Hardware
+### Multiple IO Break Out Board
 
 In order to make it easier for you to have finished the project in time here's a Break Out Board that can fit in a Arduino Board models UNO and Mega.
 
@@ -46,6 +46,8 @@ In order to make it easier for you to have finished the project in time here's a
 
 **Full Board:** [PDF]({{ site.baseurl }}{% link assets/docs/ArduinoShield-Board-Full.pdf %})
 ![Final Project Board](../assets/images/hmi-6-5.jpg)
+
+**Eagle Files** [SCH]({{ site.baseurl }}{% link assets/docs/ArduinoShield.sch %}), [BRD]({{ site.baseurl }}{% link assets/docs/ArduinoShield.brd %})
 
 **BOM**
 * 1x PCB; PC-10X10
@@ -70,6 +72,198 @@ Some useful lectures:
 * [Tutorial Power Control](http://bildr.org/2011/03/high-power-control-with-arduino-and-tip120/)
 * [DTH11 Library for Arduino](https://playground.arduino.cc/Main/DHT11Lib)
 * [Tutorial DTH11 with Arduino](http://www.circuitbasics.com/how-to-set-up-the-dht11-humidity-sensor-on-an-arduino/)
+
+
+### Demo Code for the Break Out Board
+
+```
+/*
+ * Human Machine Interface
+ * Break Out Board Demo Code
+ * By: Hazael Mojica
+ * Monterrey, NL, México. 25/10/2017
+ */
+#include <dht.h>
+#include <Servo.h>
+dht DHT;
+Servo servo;
+
+//Here define all pins
+#define LED_ALIVE_PIN           13
+#define SERVO_PIN               11
+#define RELAY_PIN               10
+#define DHT11_PIN               9
+#define IN_OUT_1_PIN            8
+#define PWM_MOTOR_CONTROL_PIN   6
+#define IN_OUT_2_PIN            5
+#define PUSH_1_PIN              2
+#define PUSH_2_PIN              3
+
+#define ANALOG_POT_DIAL_PIN     3
+#define ANALOG_GP_IN            2
+
+//Here define work intervals
+unsigned int intervalDHT11 = 1000; //ms DHT11
+unsigned int interlvalA3 = 250; //ms Pot Dial
+unsigned int interlvalA2 = 200; //ms A2
+unsigned int intervalAliveLED = 300; //ms Alive LED D13
+
+unsigned long currentMillis = 0;
+unsigned long pastMillisDHT11 = 0;
+unsigned long pastMillisA3 = 0;
+unsigned long pastMillisA2 = 0;
+unsigned long pastMillisAliveLED = 0;
+
+//Here are the global variables
+float humidity;
+float temperature;
+boolean aliveLEDStatus = HIGH;
+int pwmMotorVal = 125;
+int servoPosDegrees = 0;
+
+
+void setup() {
+  //Init Serial communications
+  Serial.begin(115200);
+  //Alive LED
+  pinMode(LED_ALIVE_PIN, OUTPUT);
+  //Servo init
+  servo.attach(SERVO_PIN);
+  //Push Pins
+  pinMode(PUSH_1_PIN, INPUT);
+  pinMode(PUSH_2_PIN, INPUT);
+}
+
+void loop() {
+  checkSerialCommand();
+  checkWorkSchedule();
+}
+
+void checkSerialCommand() {
+  if(Serial.available()) {
+    switch(Serial.read()) {
+      case 'a': //Get Temperature
+        Serial.print("Temperature: ");
+        Serial.println(temperature);
+      break;
+      case 'b': //Get Humidity
+        Serial.print("Humidity: ");
+        Serial.println(humidity);
+      break;
+      case 'c': //Increase PWM Motor Val
+        increaseMotorPWMVal();
+      break;
+      case 'd': //Decrease PWM Motor Val
+        decreaseMotorPWMVal();
+      break;
+      case 'e': //Increase Servo Pos
+        increaseServoPos();
+      break;
+      case 'f': //Decrease Servo Pos
+        decreaseServoPos();
+      break;
+      case 'g': //Turn ON Relay PIN
+        relayPinChangeState(HIGH);
+      break;
+      case 'h': //Turn OFF Relay PIN
+        relayPinChangeState(LOW);
+      break;
+      case 'i': //Read POT
+        readPotDial();
+      break;
+      case 'j': //Read Push PIN 1
+        readPushButton(PUSH_1_PIN);
+      break;
+      case 'k': //Read Push PIN 2
+        readPushButton(PUSH_2_PIN);
+      break;
+            
+    }
+  }
+}
+
+void checkWorkSchedule() {
+  currentMillis = millis();
+
+  if((currentMillis - pastMillisAliveLED) >= intervalAliveLED) {
+    blinkAliveLED();
+    pastMillisAliveLED = currentMillis;
+  }
+
+  if((currentMillis - pastMillisDHT11) >= intervalDHT11) {
+    getDHT11Lecture();
+    pastMillisDHT11 = currentMillis;
+  }
+}
+
+void blinkAliveLED() {
+  aliveLEDStatus = 1 - aliveLEDStatus;
+  digitalWrite(LED_ALIVE_PIN, aliveLEDStatus);
+}
+
+void getDHT11Lecture() {
+  int chk = DHT.read11(DHT11_PIN);
+  temperature = (float) DHT.temperature;
+  humidity = (float) DHT.humidity;
+}
+
+void increaseServoPos() {
+  servoPosDegrees += 5;
+  if(servoPosDegrees > 180) {
+    servoPosDegrees = 180;
+  }
+  Serial.print("Servo Pos: ");
+  Serial.println(servoPosDegrees);
+  servo.write(servoPosDegrees);
+}
+
+void decreaseServoPos() {
+  servoPosDegrees -= 5;
+  if(servoPosDegrees < 0) {
+    servoPosDegrees = 0;
+  }
+  Serial.print("Servo Pos: ");
+  Serial.println(servoPosDegrees);
+  servo.write(servoPosDegrees);
+}
+
+void increaseMotorPWMVal() {
+  pwmMotorVal += 5;
+  if(pwmMotorVal > 255) {
+    pwmMotorVal = 255;
+  }
+  analogWrite(PWM_MOTOR_CONTROL_PIN, pwmMotorVal);
+  Serial.print("PWM Motor Val: ");
+  Serial.println(pwmMotorVal);
+}
+
+void decreaseMotorPWMVal() {
+  pwmMotorVal -= 5;
+  if(pwmMotorVal < 0) {
+    pwmMotorVal = 0;
+  }
+  analogWrite(PWM_MOTOR_CONTROL_PIN, pwmMotorVal);
+  Serial.print("PWM Motor Val: ");
+  Serial.println(pwmMotorVal);
+}
+
+void relayPinChangeState(int state) {
+    digitalWrite(RELAY_PIN, state);
+    Serial.print("Relay PIN: ");
+    Serial.println(state);
+}
+
+void readPotDial() {
+    Serial.print("POT Dial: ");
+    Serial.println(analogRead(ANALOG_POT_DIAL_PIN));
+}
+
+void readPushButton(int pushPin) {
+    Serial.print("Push Button ");
+    Serial.print(pushPin);
+    Serial.println(digitalRead(pushPin));
+}
+```
 
 ### PCB Prototyping
 
