@@ -265,6 +265,10 @@ void readPushButton(int pushPin) {
 }
 ```
 
+### PCB Demo Break Out Board Shield
+
+![Final Project Demo](../assets/images/hmi-6-6.jpg)
+
 ### PCB Prototyping
 
 Do you want the PCB board and all the components ready to use? Contact:
