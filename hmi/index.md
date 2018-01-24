@@ -19,7 +19,7 @@ This is the main page for the Human Machine Interface course I teach in FIME UAN
 ## Useful Links
 
 * [This is the Moodle Page](http://hmojica.ddns.net/moodle/)
-* [This is the Calendar for Agosto - Diciembre 2017](https://docs.google.com/document/d/1KECRdSw44BwtrcnLldQsnH5C3VSd0cGcMtAVTvgGddU/edit?usp=sharing)
+* [This is the Calendar for Enero - Junio 2018](https://docs.google.com/document/d/133M6ahHdb0FiOpafl8YYZgLHlSCPr7m4wc_J8Mx_WyI/edit?usp=sharing)
 * [How to Sign Up in Moodle](https://docs.google.com/document/d/1z3NbPut3HGVdspBxTaQPQNATQl1WXr6cgVhIsQG4b3w/edit?usp=sharing)
 * [FB Group](https://www.facebook.com/groups/InterfacesIOFIME/)
 * [Course Material (Presentatios, Books & Guides)](https://drive.google.com/drive/folders/0B3WC4CiccSmVZXY2VnI1ZGVzZ0k?usp=sharing)
