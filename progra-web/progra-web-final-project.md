@@ -65,3 +65,4 @@ NOTA: En el video he corrido `sudo dotnet run` pero esto no debería ser necesar
 
 [21.- Programación Web Proyecto Final - DeleteMusic 2](https://youtu.be/3VfB5c9BBek)
 
+El proyecto ya terminado está en [este subdirectorio de github](https://github.com/hmojicag/progra-web-final-project/tree/master/progra-web-final-project-FULL)
