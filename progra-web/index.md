@@ -10,6 +10,9 @@ This is the main site of the course "Web Development" I teach in FIME UANL. Have
 
 A tale about how programming was made in the era of punched cards: [Computer History](http://www.columbia.edu/cu/computinghistory/fisk.pdf)
 
+## Online Lectures
+* [Online Lecture 1 - HTML]({{ site.baseurl }}{% link progra-web/progra-web-1-HTML.md %})
+
 ## This Section is for FIME UANL Students Only
 
 * [This is the Moodle Page](http://moodle.academicos.com.mx/)
@@ -19,3 +22,5 @@ A tale about how programming was made in the era of punched cards: [Computer His
 * [How to Sign Up in Moodle](https://docs.google.com/document/d/1z3NbPut3HGVdspBxTaQPQNATQl1WXr6cgVhIsQG4b3w/edit?usp=sharing)
 * [FB Group](https://www.facebook.com/groups/ProgramacionWEBFIME/)
 * [Final Project Page]({{ site.baseurl }}{% link progra-web/progra-web-final-project.md %})
+
+
