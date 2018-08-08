@@ -4,7 +4,7 @@ title: Online Lecture 1 - HTML
 date: 2018-08-06
 ---
 
-## [Online Lecture](#header-2)
+## [Online Lecture 1](#header-2)
 
 [Progra Web - 1 HTML 0 Introduction](https://youtu.be/zR58Jigh9d0)
 
