@@ -13,6 +13,7 @@ A tale about how programming was made in the era of punched cards: [Computer His
 ## Online Lectures
 * [Online Lecture 1 - HTML]({{ site.baseurl }}{% link progra-web/progra-web-1-HTML.md %})
 * [Online Lecture 2 - CSS]({{ site.baseurl }}{% link progra-web/progra-web-2-CSS.md %})
+* [Online Lecture 3 - Bootstrap]({{ site.baseurl }}{% link progra-web/progra-web-3-Bootstrap.md %})
 
 ## This Section is for FIME UANL Students Only
 

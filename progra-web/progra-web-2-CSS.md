@@ -4,7 +4,7 @@ title: Online Lecture 2 - CSS
 date: 2018-08-06
 ---
 
-## [Online Lecture 2](#header-2)
+## [Online Lecture 2 - CSS](#header-2)
 
 [Progra Web - 2 CSS 1 Intro](https://youtu.be/Gm-AzkSMrp4)
 
@@ -26,4 +26,4 @@ date: 2018-08-06
 
 [Progra Web - 2 CSS 10 BoxModel 1](https://youtu.be/btx_pBUGVm0)
 
-[Progra Web - 2 CSS 10 BoxModel 2](https://youtu.be/mbIR9Psb6Sw)
+[Progra Web - 2 CSS 10 BoxModel 2](https://youtu.be/mbIR9Psb6Sw)[Progra Web - 2 CSS 10 BoxModel 2](https://youtu.be/mbIR9Psb6Sw)
