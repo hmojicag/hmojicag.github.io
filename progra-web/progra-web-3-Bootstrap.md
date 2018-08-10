@@ -6,6 +6,8 @@ date: 2018-08-09
 
 ## [Online Lecture 3 - Bootstrap](#header-2)
 
+[Slides Online Lecture 3 - Bootstrap PDF](https://drive.google.com/open?id=11XkL2LigvbBN7H-eujWJhwjR8BaRLWJ_)
+
 [Progra Web - 3 Bootstrap 1 Intro](https://youtu.be/zSnHgVMHdCQ)
 
 [Progra Web - 3 Bootstrap 2 Intro 2](https://youtu.be/9zioLCrscAE)

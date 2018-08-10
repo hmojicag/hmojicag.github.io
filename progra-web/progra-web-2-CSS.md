@@ -6,6 +6,8 @@ date: 2018-08-06
 
 ## [Online Lecture 2 - CSS](#header-2)
 
+[Slides Online Lecture 2 - CSS PDF](https://drive.google.com/open?id=1xtRO1NSBGyOGUWKgGcQ_Z5Fr8hFzeSg_)
+
 [Progra Web - 2 CSS 1 Intro](https://youtu.be/Gm-AzkSMrp4)
 
 [Progra Web - 2 CSS 2 Example 1.1](https://youtu.be/vR643bpUdU8)
