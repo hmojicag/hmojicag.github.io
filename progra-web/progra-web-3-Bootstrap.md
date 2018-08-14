@@ -22,4 +22,4 @@ date: 2018-08-09
 
 [Progra Web - 3 Bootstrap 7 Example2.1](https://youtu.be/dpUq8DYjFfA)
 
-[Progra Web - 3 Bootstrap 7 Example2.2](https://youtu.be/jamIyFEePSA)
+[Progra Web - 3 Bootstrap 8 Example2.2](https://youtu.be/jamIyFEePSA)
