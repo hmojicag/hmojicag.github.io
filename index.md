@@ -1,5 +1,5 @@
 ---
-layout: course
+layout: default
 title: Hazelnut Technology Site
 ---
 
