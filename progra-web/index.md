@@ -16,6 +16,7 @@ A tale about how programming was made in the era of punched cards: [Computer His
 * [Online Lecture 3 - Bootstrap]({{ site.baseurl }}{% link progra-web/progra-web-3-Bootstrap.md %})
 * [Online Lecture 4 - Javascript]({{ site.baseurl }}{% link progra-web/progra-web-4-Javascript.md %})
 * [Online Lecture 5 - .Net Core]({{ site.baseurl }}{% link progra-web/progra-web-5-DotNetCore.md %})
+* [Online Lecture 6 - Intro to Razor Pages]({{ site.baseurl }}{% link progra-web/progra-web-6-IntroRazorPages.md %})
 
 ## This Section is for FIME UANL Students Only
 
