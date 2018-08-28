@@ -1,7 +1,7 @@
 ---
 layout: course
 title: Online Lecture 7 - Razor Pages Handling GET Requests
-date: 2018-08-24
+date: 2018-08-27
 ---
 
 ## [Online Lecture 7 - Razor Pages Handling GET Requests](#header-2)
