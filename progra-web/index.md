@@ -20,6 +20,8 @@ A tale about how programming was made in the era of punched cards: [Computer His
 * [Online Lecture 7 - Razor Pages Handling GET Requests]({{ site.baseurl }}{% link progra-web/progra-web-7-RazorPages-GETRequests.md %})
 * [Online Lecture 8 - HTTP]({{ site.baseurl }}{% link progra-web/progra-web-8-HTTP.md %})
 * [Online Lecture 9 - Razor Pages Handling POST Requests]({{ site.baseurl }}{% link progra-web/progra-web-9-RazorPages-POSTRequests.md %})
+* [Online Lecture 10 - SQL]({{ site.baseurl }}{% link progra-web/progra-web-10-SQL %})
+* [Online Lecture 11 - Razor Pages EF Core]({{ site.baseurl }}{% link progra-web/progra-web-11-RazorPagesEFCore.md %})
 
 ## This Section is for FIME UANL Students Only
 
