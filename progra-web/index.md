@@ -30,7 +30,7 @@ A tale about how programming was made in the era of punched cards: [Computer His
 * [Slides](https://drive.google.com/drive/folders/0B3WC4CiccSmVeEN2WVBNN1owQkE?usp=sharing)
 * [Books](https://drive.google.com/drive/folders/0B3WC4CiccSmVcUR6STNqMUgtUTg?usp=sharing)
 * [How to Sign Up in Moodle](https://docs.google.com/document/d/1z3NbPut3HGVdspBxTaQPQNATQl1WXr6cgVhIsQG4b3w/edit?usp=sharing)
-* [FB Group](https://www.facebook.com/groups/ProgramacionWEBFIME/)
+* [WhatsApp Group](https://chat.whatsapp.com/LDYYi4Pgf8R3ZRD3UeZ7na)
 * [Final Project Page]({{ site.baseurl }}{% link progra-web/progra-web-final-project.md %})
 
 

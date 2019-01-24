@@ -21,5 +21,5 @@ This is the main page for the Human Machine Interface course I teach in FIME UAN
 * [This is the Moodle Page](http://moodle.academicos.com.mx/)
 * [This is the Calendar for Enero - Junio 2019](https://docs.google.com/document/d/1mYhJPZY60FNmdr-K3SZ430uxrclE9tX3CKNJjlftqOA/edit)
 * [How to Sign Up in Moodle](https://docs.google.com/document/d/1z3NbPut3HGVdspBxTaQPQNATQl1WXr6cgVhIsQG4b3w/edit?usp=sharing)
-* [FB Group](https://www.facebook.com/groups/InterfacesIOFIME/)
+* [WhatsApp Group](https://chat.whatsapp.com/HJhqE2HVICQGp0rG4blFq2)
 * [Course Material (Presentatios, Books & Guides)](https://drive.google.com/drive/folders/0B3WC4CiccSmVZXY2VnI1ZGVzZ0k?usp=sharing)
