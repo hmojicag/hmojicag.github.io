@@ -23,8 +23,10 @@
         <p class="meta">{{ page.date | date_to_string }}</p>
 
         <div class="comic">
-            :D
-            
+            <img src="/assets/ass/{{ page.comic }}.png" alt="comic image" /><br>
+            Transcript: {{ page.transcript }}<br>
+            <a href="/ass/{{ page.previous }}">Previous</a> |
+            <a href="/ass/{{ page.next }}">Next</a>)<br>
             {{ content }}
         </div>
 
