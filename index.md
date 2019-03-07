@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Hazelnut Technology Site
+title: Hazelsoft Technology Site
 ---
 
 Hello I'm Hazael Mojica, I'm a professional Software Developer living in Monterrey México, I like long fantasy books, programming, tacos and chihuahua dogs.
@@ -18,3 +18,7 @@ This is the online course list instructed by me at FIME UANL. I hope you will ha
 ## [List of available courses](#header-1)
 * [Human Machine Interface]({{ site.baseurl }}{% link hmi/index.md %}).
 * [Web Development using .Net Core 2]({{ site.baseurl }}{% link progra-web/index.md %}).
+
+## My Comic:
+
+[AASS: AASS is not Another Stupid Storyboard]({{ site.baseurl }}{% link aass/index.md %})

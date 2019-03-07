@@ -1,8 +1,8 @@
 theme: jekyll-theme-hacker
 repository: hmojicag/hmojicag.github.io
-title: Hazelnut Learning Site
+title: Hazelsoft Learning Site
 description: A non-profit site where you can learn useful technology stuff. By Hazael Mojica.
 permalink: /blog/:year/:month/:day/:title
 githuburl: https://hmojicag.github.io
-titleComic: AASS ASS is not Another Stupid Storyboard
+titleComic: AASS AASS is not Another Stupid Storyboard
 descriptionComic: I can assure you this is not the site you were searching for, exit immediately or I may hurt your feelings
