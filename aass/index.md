@@ -1,10 +1,8 @@
 ---
 layout: comic
-title: ASS
+title: AASS
 date: 2019-02-18
 ---
-
-AASS (Another Stupid Storyboard) main page
 
 Español
 
