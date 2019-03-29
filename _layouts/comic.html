@@ -27,17 +27,65 @@
                     <h1>{{ page.title }}</h1>
                     <p class="meta">{{ page.date | date_to_string }}</p>
 
-                    {% if page.comic %}
-                    <img src="/assets/aass/{{ page.comic }}.png" alt="comic image" /><br>
+                    {% assign urlSplit = page.url | split: "/" %}
+                    {% assign lang = urlSplit[2] %}
+                    {% assign comic = urlSplit[3] | plus: 0 %}
+                    {% assign comicTotal = site.comicTotal | plus: 0 %}
+
+                    {% if comic > 0 %}
+                    <img src="/assets/aass/{{ comic }}_{{ lang }}.png" alt="Comic AASS: {{ page.title }}"/><br>
                     {% endif %}
                     <p>
-                        {% if page.previous %}
-                        <a href="/aass/{{ page.previous }}">Previous</a> |
-                        {% endif %}
-                        {% if page.next %}
-                        <a href="/aass/{{ page.next }}">Next</a><br>
+                        {% if lang %}
+                          {% if comic > 1 %}
+                          {% assign previous = comic | minus: 1 %}
+                          <a href="/aass/{{ lang }}/{{ previous }}">Previous</a> |
+                          {% endif %}
+                          {% if comic < comicTotal %}
+                          {% assign next = comic | plus: 1 %}
+                          <a href="/aass/{{ lang }}/{{ next }}">Next</a><br>
+                          {% endif %}
                         {% endif %}
                     </p>
+
+                    <p>
+                      {% if lang == "es" %}
+                        <a href="/aass/en/{{ comic }}">In English</a>
+                      {% endif %}
+                      {% if lang == "en" %}
+                        <a href="/aass/es/{{ comic }}">En Español</a>
+                      {% endif %}
+                    </p>
+
+                    {% if comic == 0 %}{% comment %} This part here is for rendering the comic page list in index.md {% endcomment %}
+                      <h2>En Español</h2>
+                      {% for p in site.pages %}
+                        {% if p.layout == "comic" %}
+                          {% if p.layout == "comic" %}
+                            {% assign uS = p.url | split: "/" %}
+                            {% assign l = uS[2] %}
+                            {% if l == "es" %}
+                              <li><a href="{{ page.url }}">{{ p.title }}</a></li>
+                            {% endif %}
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+
+                      <br><br><br>
+                      <h2>In English</h2>
+                      {% for p in site.pages %}
+                        {% if p.layout == "comic" %}
+                          {% if p.layout == "comic" %}
+                            {% assign uS = p.url | split: "/" %}
+                            {% assign l = uS[2] %}
+                            {% if l == "en" %}
+                              <li><a href="{{ page.url }}">{{ p.title }}</a></li>
+                            {% endif %}
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+
+                    {% endif %}
 
                     {{ content }}
                 </div>
