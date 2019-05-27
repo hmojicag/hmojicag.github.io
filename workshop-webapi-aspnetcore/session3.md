@@ -12,6 +12,7 @@ date: 2019-05-26
 1. In Memory Cache
 1. Many to Many Relationships
 1. Migrations (Migrate changes)
+1. Authentication
 
 # Dependency Injection
 https://social.technet.microsoft.com/wiki/contents/articles/37218.asp-net-core-overview-of-dependency-injection.aspx

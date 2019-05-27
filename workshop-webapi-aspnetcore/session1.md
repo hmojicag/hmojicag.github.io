@@ -336,7 +336,7 @@ C# provides full support for object-oriented programming including encapsulation
 
 The terms class and object are sometimes used interchangeably, but in fact, classes describe the type of objects, while objects are usable instances of classes. So, the act of creating an object is called instantiation. Using the blueprint analogy, a class is a blueprint, and an object is a building made from that blueprint.
 
-![Class Object Instantiation.](../assets/images/ObjectClass.png)
+![Class Object Instantiation.](../assets/images/workshop-webapi-aspnetcore/ObjectClass.png)
 
 To define a class:
 ```csharp
@@ -521,7 +521,7 @@ For more information, see:
 
 There are two kinds of types in C#: value types and reference types. Variables of value types directly contain their data whereas variables of reference types store references to their data, the latter being known as objects. With reference types, it is possible for two variables to reference the same object and thus possible for operations on one variable to affect the object referenced by the other variable. With value types, the variables each have their own copy of the data, and it is not possible for operations on one to affect the other (except in the case of ref and out parameter variables).
 
-![Stack vs Heap](../assets/images/StackAndHeap.png)
+![Stack vs Heap](../assets/images/workshop-webapi-aspnetcore/StackAndHeap.png)
 
 **Stack** is used for static memory allocation and **Heap** for dynamic memory allocation, both stored in the computer's RAM .
 
@@ -540,7 +540,7 @@ There are two kinds of types in C#: value types and reference types. Variable
 $"val1: {val1}, val2: {val2}, val3: {val3},");
 ```
 
-![Value Types](../assets/images/ValueTypes.png)
+![Value Types](../assets/images/workshop-webapi-aspnetcore/ValueTypes.png)
 
 ### Reference types
 
@@ -565,7 +565,7 @@ private class DummyClass {
 }
 ```
 
-![Value Types](../assets/images/ReferenceTypes.png)
+![Value Types](../assets/images/workshop-webapi-aspnetcore/ReferenceTypes.png)
 
 ### The Exception to the rule: The “string”
 
@@ -578,7 +578,7 @@ A String object is a reference typed object. But a string is special in C#, when
  Console.WriteLine("Both string are equals");
 }
 ```
-![String are exceptions to the rule](../assets/images/StringsTheExcpetionsToTheRule.png)
+![String are exceptions to the rule](../assets/images/workshop-webapi-aspnetcore/StringsTheExcpetionsToTheRule.png)
 
 [Reference](https://docs.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/types-and-variables)
 
