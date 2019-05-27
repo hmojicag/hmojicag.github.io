@@ -581,3 +581,5 @@ A String object is a reference typed object. But a string is special in C#, when
 ![String are exceptions to the rule](../assets/images/StringsTheExcpetionsToTheRule.png)
 
 [Reference](https://docs.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/types-and-variables)
+
+[Go to Session 2 --->]({{ site.baseurl }}{% link workshop-webapi-aspnetcore/session2.md %})
