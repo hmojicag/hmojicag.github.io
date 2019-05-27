@@ -26,14 +26,15 @@ Although we need to understand some of the basics of HTTP and networking so we c
 Remember **HTTP** is a request/response protocol, and every request and it's correspondent response are stateless, it means they do not store any session related information.
 As an example, imagine you have a web server which only you can access, nobody else can, then you request a web page from that web server (at least one request/response) is made between the client (your web browser) and the server, this page is a Poll for evaluating somebody, you fill all the fields in the poll then you click the submit button that sends data to the server and refreshes the page, the server will treat each request separately and should not try to relate them, every request must contain enough information within to tell the server what to do (user info, data...).
 
+![Simplification of the HTTP Request/Response Model](../assets/images/http-request-response.png)
 
+![TCP/IP 5 layers](../assets/images/TCPIP5.png)
 
 [Reference](https://microchipdeveloper.com/tcpip:tcp-ip-five-layer-model)
 
 ## Introduction to HTTP for Web Developer
 
-
-
+See [this HTTP presentation](https://drive.google.com/open?id=1GMkh4y9zXNYoBcKUdpH7dAFjwIU4vBTy)
 
 [Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP)
 
