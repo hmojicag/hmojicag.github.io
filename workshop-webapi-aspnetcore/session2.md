@@ -236,8 +236,14 @@ namespace MoviesWebApi.Controllers {
         [HttpPut("{id}")]
         //PUT api/movies/{id}
         //Payload: A Json representing the Movie object
-        public ActionResult<Movie> UpdateMovie(Movie movie) {
+        public ActionResult<Movie> UpdateMovie(string id, Movie movie) {
             return movie;
+        }
+
+        [HttpDelete("{id}")]
+        //DELETE api/movies/{id}
+        public ActionResult DeleteMovie(string id) {
+            return NoContent();
         }
     }
 }
@@ -289,3 +295,274 @@ curl -X PUT \
 }'
 ```
 ![Hardcoded Update a movie endpoint](../assets/images/workshop-webapi-aspnetcore/session2-hardcoded-put.PNG)
+
+## Sharing the API with other devices in the LAN
+
+So far we have our API "working", it returns hardcoded values but we are advancing at good pace towards our goal which is to build a full API.
+
+The **web api** is published locally using the Kestrel embedded server, it is configured to only listen to `http://localhost:5000`, we are going to tweak that so we can share our API with other developers connected to the same LAN.
+
+Add `.UseUrls("http://*:5000")` to the WebHostBuilder in `Program.cs`.
+So instead of just listening to `localhost` it will listen to any income connection to the port `5000`.
+
+`Program.cs`
+```csharp
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+
+namespace MoviesWebApi
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateWebHostBuilder(args).Build().Run();
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseUrls("http://*:5000")
+                .UseStartup<Startup>();
+    }
+}
+```
+
+Test, ask another developer to make a request to your machine.
+For this example my computer was running with IP `192.168.0.7`, so the request would be:
+
+```
+curl -X GET \
+  http://192.168.0.7:5000/api/movies/
+```
+
+You can get your local `ip` by running `ipconfig` in a terminal in windows.
+
+## Connecting a database for persisting the data
+
+Now we are going to add a database connection for persisting the data.
+First, let's create a database and the basic schema for the only table we have.
+
+Execute the next command in a `New Query` editor in SSMS.
+
+```
+CREATE DATABASE MoviesDB
+GO
+USE MoviesDB
+
+CREATE TABLE Movies (
+	Id varchar(45) NOT NULL PRIMARY KEY,
+	[Name] varchar(250),
+	Genre  varchar(250),
+	[Year] int,
+	Duration int,
+	CreatedDate [datetime2](7),
+	LastUpdatedDate [datetime2](7)
+)
+```
+
+As you can see we are creating a database called `MoviesDB` and a table in it called `Movies`, which is the plural for the entity class `Movie` we have in our Models folder. Each record of the table `Movies`  will mapped to an instance of the class `Movie` by Entity Framework Core.
+
+Now let's add a `DbContext`, you can see a DbContext as a representation of the database, it will hold a mapping of all the tables in the database that are going to be used by our web api.
+
+Create a folder called `src\Data` and create a class called `AppDbContext` in it:
+
+`src\Data\AppDbContext.cs`
+```csharp
+using Microsoft.EntityFrameworkCore;
+using MoviesWebApi.Models;
+
+namespace MoviesWebApi.Data {
+    public class AppDbContext : DbContext {
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options) {
+        }
+
+        //This is our table Movies
+        public DbSet<Movie> Movies { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            //We are going to put here all the Model characteristics
+            //Like relationships between tables, Indexes, Primary Keys...
+        }
+    }
+}
+```
+
+Now we need a way to let know our DbContext how to connect to the database, we need a connection string for that job, add a new connection string to the properties file called `appsettings.json`.
+
+For the connection string use the database name, user and passwords appropriate for the database instance you have.
+
+`\appsettings.json`
+```javascript
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "AppDbContextDB": "Server=MEXMON740L\\SQLEXPRESS; Initial Catalog=MoviesDB;user id=moviesUser;password=123456789;"
+  }
+}
+```
+
+I have seen many different types of Connection Strings, you need to play with it if for some reason it doesn't seems to work. For example:
+
+I'm sure the next one works for working with remote databases like the one hosted in Smarterasp.net
+```
+"Data Source=<DbServerHostName>.site4now.net; Initial Catalog=DB_<userId>_<user>; User
+Id=DB_<userId>_<user>_admin;Password=YOUR_DB_PASSWORD;"
+```
+
+The next connection string is used for connection to a SQL Server 2017 spinned up with docker container in the local machine
+```
+"Data Source=localhost,1401; Initial Catalog=DATABASE_NAME; user id=DB_USER; password=YOUR_DB_PASSWORD;";
+```
+
+Now let's register our DbContext as a service for our app, add the next line to the `ConfigureServices` method in the `Startup` class.
+
+```
+services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(Configuration.GetConnectionString("AppDbContextDB")));
+```
+
+You may end up with a `Startup` class very similar to this one:
+
+`\Startup.cs`
+```csharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using MoviesWebApi.Data;
+
+namespace MoviesWebApi {
+    public class Startup {
+        public Startup(IConfiguration configuration) {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services) {
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("AppDbContextDB")));
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+            if (env.IsDevelopment()) {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseMvc();
+        }
+    }
+}
+```
+Now run your app, it may not do anything in particular, but watch the logs, the must no throw any error related to database connection, if the application loads correctly then we did our job very well.
+
+## Introduction to EF Core
+
+EF Core can serve as an object-relational mapper (O/RM), enabling .NET developers to work with a database using .NET objects, and eliminating the need for most of the data-access code they usually need to write.
+
+So, in other words, EF Core will cover for us the underlying logic that gets executed against a database and we will only focus in what we want to retrieve from it.
+
+Let's change all our controllers so you see for yourself.
+
+`src\Controllers\MoviesController.cs`
+```csharp
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using MoviesWebApi.Data;
+using MoviesWebApi.Models;
+
+namespace MoviesWebApi.Controllers {
+
+    [Route("api/movies")]
+    [ApiController]
+    public class MoviesController : ControllerBase {
+
+        private AppDbContext db;
+
+        //Inject the AppDbContext object into this controlle class
+        public MoviesController(AppDbContext db) {
+            this.db = db;
+        }
+
+        [HttpGet]
+        //GET api/movies
+        public ActionResult<IEnumerable<Movie>> GetAllMovies() {
+            var movies = db.Movies.ToList();
+            return movies;
+        }
+
+        [HttpGet("{id}")]
+        //GET api/movies/{id}
+        public ActionResult<Movie> GetMovie(string id) {
+            Movie movie = db.Movies.Find(id);
+
+            if (movie == null) {
+                return NotFound();
+            }
+
+            return movie;
+        }
+
+        [HttpPost]
+        //POST api/movies
+        //Payload: A Json representing the Movie object
+        public ActionResult<Movie> CreateMovie(Movie movie) {
+            db.Movies.Add(movie);
+            db.SaveChanges();
+            return movie;
+        }
+
+        [HttpPut("{id}")]
+        //PUT api/movies/{id}
+        //Payload: A Json representing the Movie object
+        public ActionResult<Movie> UpdateMovie(string id, Movie movie) {
+            Movie movieFromDb = db.Movies.Find(id);
+
+            if (movieFromDb == null) {
+                return NotFound();
+            }
+
+            //Copy all modifiable fields
+            movieFromDb.Name = movie.Name;
+            movieFromDb.Year = movie.Year;
+            movieFromDb.Genre = movie.Genre;
+            movieFromDb.Duration = movie.Duration;
+
+            db.Movies.Update(movieFromDb);
+            db.SaveChanges();
+
+            return movie;
+        }
+
+        [HttpDelete("{id}")]
+        //DELETE api/movies/{id}
+        public ActionResult DeleteMovie(string id) {
+            Movie movieFromDb = db.Movies.Find(id);
+
+            if (movieFromDb == null) {
+                return NotFound();
+            }
+
+            db.Movies.Remove(movieFromDb);
+            db.SaveChanges();
+
+            return NoContent();
+        }
+    }
+}
+```
+
+Congratulations, you have your first fully functionally API.
+In the next Session we will see good practices about developing web apis and why is not really good to have all the logic in the Controller, but for now fell happy, you did it!!
