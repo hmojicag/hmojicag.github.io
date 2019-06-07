@@ -96,7 +96,10 @@ Here below is the web API we are going to create
 |GET /api/movies/{id} | Get a movie by ID | None | movie| 200, 404
 |POST /api/movies | Add a new movie | movie | movie | 201, 422, 400
 |PUT /api/movies/{id} | Update an existing movie | movie | movie | 200, 404, 422, 400
+|PUT /api/movies/{movieId}/actors | Add an actor to a movie | actor | movie | 200, 404, 422, 400
 |DELETE /api/movies/{id} | Delete a movie | None | None| 204, 404
+|POST /api/actors | Add a new actor | actor | actor | 201, 422, 400
+|POST /api/studios | Add a new studios | studios | studios | 201, 422, 400
 
 
 ## HTTP Conventions for our API
@@ -136,7 +139,7 @@ It is good to return the appropriate status code according to request type and r
 
 ## Building the Models and Controllers
 
-Using the project we have just created using the **webapi** template create a `src` folder and move the `Controllers` inside it (It's not mandatory but I like to keep all my code insie an src folder).
+Using the project we have just created using the **webapi** template create a `src` folder and move the `Controllers` inside it (It's not mandatory but I like to keep all my code inside an `src` folder).
 
 Now Create a folder called `src/Models` and inside it a class called `Movie`.
 This class is going to be entity we are trying to manipulate (Get, Create, Update, Delete), this class will also serve as Model for mapping to a Table in a SQL Server database.

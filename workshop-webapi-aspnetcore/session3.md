@@ -43,8 +43,9 @@ It's a good practice to always put all the business logic in the Service Layer, 
 Create a new folder called `src\Services` and inside it a new Interface IMoviesService and a class `MoviesService` that implements that interface.
 And register the service to the IoC engine in `Startup`.
 
+`src\Services\IMoviesService.cs`
 <details>
-  <summary>`src\Services\IMoviesService.cs`</summary>
+  <summary>IMoviesService.cs click to expand</summary>
   ```csharp
   using System.Collections.Generic;
   using MoviesWebApi.Models;
