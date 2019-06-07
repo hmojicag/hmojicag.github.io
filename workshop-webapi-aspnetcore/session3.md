@@ -44,24 +44,20 @@ Create a new folder called `src\Services` and inside it a new Interface IMoviesS
 And register the service to the IoC engine in `Startup`.
 
 `src\Services\IMoviesService.cs`
-<details>
-  <summary>IMoviesService.cs click to expand</summary><p>
+```csharp
+using System.Collections.Generic;
+using MoviesWebApi.Models;
 
-  ```csharp
-  using System.Collections.Generic;
-  using MoviesWebApi.Models;
-
-  namespace MoviesWebApi.Services {
-      public interface IMoviesService {
-          List<Movie> GetAllMovies();
-          Movie GetMovie(string id);
-          Movie CreateMovie(Movie movie);
-          Movie UpdateMovie(string id, Movie movie);
-          void DeleteMovie(string id);
-      }
-  }
-  ```
-</p></details>
+namespace MoviesWebApi.Services {
+    public interface IMoviesService {
+        List<Movie> GetAllMovies();
+        Movie GetMovie(string id);
+        Movie CreateMovie(Movie movie);
+        Movie UpdateMovie(string id, Movie movie);
+        void DeleteMovie(string id);
+    }
+}
+```
 
 `src\Services\MoviesService.cs`
 ```csharp
@@ -364,10 +360,15 @@ namespace MoviesWebApi.Services {
             movieFromDb.Year = movie.Year;
             movieFromDb.Genre = movie.Genre;
             movieFromDb.Duration = movie.Duration;
+            movieFromDb.LastUpdatedDate = DateTime.Now;
 
             db.Movies.Update(movieFromDb);
             db.SaveChanges();
-            MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, id);
+
+            //Evict this entry from cache
+            memoryCache.Remove(MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, id));
+            memoryCache.Remove(MemoryCacheKey.MOVIES_ALL.ToString());
+
             return movieFromDb;
         }
 
@@ -380,6 +381,9 @@ namespace MoviesWebApi.Services {
 
             db.Movies.Remove(movieFromDb);
             db.SaveChanges();
+
+            //Evict this entry from cache
+            memoryCache.Remove(MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, id));
             memoryCache.Remove(MemoryCacheKey.MOVIES_ALL.ToString());
         }
     }
@@ -497,54 +501,417 @@ Add 2 new controllers with their respective services.
 
 `src\Conrollers\ActorsController.cs`
 ```csharp
+using Microsoft.AspNetCore.Mvc;
+using MoviesWebApi.Data;
+using MoviesWebApi.Models;
+using MoviesWebApi.Services;
 
+namespace MoviesWebApi.Controllers {
+
+    [Route("api/actors")]
+    [ApiController]
+    public class ActorsController : ControllerBase {
+
+        private IActorsService actorsService;
+
+        public ActorsController(IActorsService actorsService) {
+            this.actorsService = actorsService;
+        }
+
+        [HttpPost]
+        //POST api/actors
+        //Payload: A Json representing the Actor object
+        public ActionResult<Actor> CreateActor(Actor actor) {
+            return actorsService.CreateActor(actor);
+        }
+
+    }
+}
 ```
 
 `src\Services\IActorsService.cs`
 ```csharp
+using MoviesWebApi.Models;
 
+namespace MoviesWebApi.Services {
+    public interface IActorsService {
+        Actor CreateActor(Actor actor);
+    }
+}
 ```
 
 `src\Services\ActorsService.cs`
 ```csharp
+using MoviesWebApi.Data;
+using MoviesWebApi.Models;
 
+namespace MoviesWebApi.Services {
+    public class ActorsService : IActorsService {
+        private AppDbContext db;
+
+        public ActorsService(AppDbContext db) {
+            this.db = db;
+        }
+
+        public Actor CreateActor(Actor actor) {
+            db.Actors.Add(actor);
+            db.SaveChanges();
+            return actor;
+        }
+    }
+}
 ```
 
 `src\Conrollers\StudiosController.cs`
 ```csharp
+using Microsoft.AspNetCore.Mvc;
+using MoviesWebApi.Models;
+using MoviesWebApi.Services;
 
+namespace MoviesWebApi.Controllers {
+    [Route("api/studios")]
+    [ApiController]
+    public class StudiosController : ControllerBase {
+        private IStudiosService studiosService;
+
+        public StudiosController(IStudiosService studiosService) {
+            this.studiosService = studiosService;
+        }
+
+        [HttpPost]
+        //POST api/studios
+        //Payload: A Json representing the Studio object
+        public Studio CreateStudio(Studio studio) {
+            return studiosService.CreateStudio(studio);
+        }
+    }
+}
 ```
 
 `src\Services\IStudiosService.cs`
 ```csharp
+using MoviesWebApi.Models;
 
+namespace MoviesWebApi.Services {
+    public interface IStudiosService {
+        Studio CreateStudio(Studio studio);
+    }
+}
 ```
 
 `src\Services\StudiosService.cs`
 ```csharp
+using MoviesWebApi.Data;
+using MoviesWebApi.Models;
 
+namespace MoviesWebApi.Services {
+    public class StudiosService : IStudiosService {
+        private AppDbContext db;
+
+        public StudiosService(AppDbContext db) {
+            this.db = db;
+        }
+
+        public Studio CreateStudio(Studio studio) {
+            db.Studios.Add(studio);
+            db.SaveChanges();
+            return studio;
+        }
+    }
+}
 ```
 
 Add a new endpoint and it's respective service method to movies (for inserting actors into a movie):
 `src\Conrollers\MoviesController.cs`
 ```csharp
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using MoviesWebApi.Models;
+using MoviesWebApi.Services;
 
+namespace MoviesWebApi.Controllers {
+
+    [Route("api/movies")]
+    [ApiController]
+    public class MoviesController : ControllerBase {
+
+        private IMoviesService moviesService;
+
+        public MoviesController(IMoviesService moviesService) {
+            this.moviesService = moviesService;
+        }
+
+        [HttpGet]
+        //GET api/movies
+        public ActionResult<IEnumerable<Movie>> GetAllMovies() {
+            return moviesService.GetAllMovies();
+        }
+
+        [HttpGet("{id}")]
+        //GET api/movies/{id}
+        public ActionResult<Movie> GetMovie(string id) {
+            Movie movie = moviesService.GetMovie(id);
+
+            if (movie == null) {
+                return NotFound();
+            }
+
+            return movie;
+        }
+
+        [HttpPost]
+        //POST api/movies
+        //Payload: A Json representing the Movie object
+        public ActionResult<Movie> CreateMovie(Movie movie) {
+            return moviesService.CreateMovie(movie);
+        }
+
+        [HttpPut("{id}")]
+        //PUT api/movies/{id}
+        //Payload: A Json representing the Movie object
+        public ActionResult<Movie> UpdateMovie(string id, Movie movie) {
+            Movie updatedMovie = moviesService.UpdateMovie(id, movie);
+
+            if (updatedMovie == null) {
+                return NotFound();
+            }
+
+            return updatedMovie;
+        }
+
+        [HttpDelete("{id}")]
+        //DELETE api/movies/{id}
+        public ActionResult DeleteMovie(string id) {
+            moviesService.DeleteMovie(id);
+            return NoContent();
+        }
+
+        [HttpPut("{movieId}/actors")]
+        //PUT api/movies/{movieId}/actors
+        //Payload: A Json array of actors ids
+        public ActionResult<Movie> updateActors(string movieId, List<string> actorsIds) {
+            Movie updatedMovie = moviesService.updateActors(movieId, actorsIds);
+
+            if (updatedMovie == null) {
+                return NotFound();
+            }
+
+            return updatedMovie;
+        }
+
+    }
+}
 ```
 `src\Services\IMoviesService.cs`
 ```csharp
+using System.Collections.Generic;
+using MoviesWebApi.Models;
 
+namespace MoviesWebApi.Services {
+    public interface IMoviesService {
+        List<Movie> GetAllMovies();
+        Movie GetMovie(string id);
+        Movie CreateMovie(Movie movie);
+        Movie UpdateMovie(string id, Movie movie);
+        void DeleteMovie(string id);
+        Movie updateActors(string movieId, List<string> actorsIds);
+    }
+}
 ```
 
 `src\Services\MoviesService.cs`
 ```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using MoviesWebApi.Data;
+using MoviesWebApi.MemoryCache;
+using MoviesWebApi.Models;
 
+namespace MoviesWebApi.Services {
+    public class MoviesService : IMoviesService {
+
+        private AppDbContext db;
+        private IMemoryCache memoryCache;
+
+        public MoviesService(AppDbContext db, IMemoryCache memoryCache) {
+            this.db = db;
+            this.memoryCache = memoryCache;
+        }
+
+        //Now we will get all movies from the InMemoryCache which are stored under the key "MOVIES_ALL"
+        //If the entry in the cache does not exists (first time, cache was expired or evicted)
+        //then it will call the lambda function which receives an ICacheEntry as parameter and returns
+        //the values for that entry.
+        public List<Movie> GetAllMovies() {
+            return memoryCache.GetOrCreate(
+                MemoryCacheKey.MOVIES_ALL.ToString(), cacheEntry => {
+                    cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+                    return db.Movies
+                        .Include(movie => movie.Studio)
+                        .Include(movie => movie.MovieActors)
+                        .ThenInclude(movieActor => movieActor.Actor)
+                        .ToList();
+                });
+        }
+
+
+        public Movie GetMovie(string id) {
+            return memoryCache.GetOrCreate(
+                MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, id),
+                cacheEntry => GetMovieFromDb(cacheEntry, id));
+        }
+
+        //Instead of creating an anonymous method, call this one for fetching data from db
+        private Movie GetMovieFromDb(ICacheEntry cacheEntry, string id) {
+            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+            return db.Movies
+                .Include(movie => movie.Studio)
+                .Include(movie => movie.MovieActors)
+                .ThenInclude(movieActor => movieActor.Actor)
+                .First(movie => movie.Id.Equals(id));
+        }
+
+        public Movie CreateMovie(Movie movie) {
+            db.Movies.Add(movie);
+            db.SaveChanges();
+            //Evict cache with all movies
+            memoryCache.Remove(MemoryCacheKey.MOVIES_ALL.ToString());
+            return movie;
+        }
+
+        public Movie UpdateMovie(string id, Movie movie) {
+            Movie movieFromDb = db.Movies.Find(id);
+
+            if (movieFromDb == null) {
+                return null;
+            }
+
+            //Copy all modifiable fields
+            movieFromDb.Name = movie.Name;
+            movieFromDb.Year = movie.Year;
+            movieFromDb.Genre = movie.Genre;
+            movieFromDb.Duration = movie.Duration;
+            movieFromDb.StudioId = movie.StudioId;
+            movieFromDb.LastUpdatedDate = DateTime.Now;
+
+            db.Movies.Update(movieFromDb);
+            db.SaveChanges();
+
+            //Evict this entry from cache
+            memoryCache.Remove(MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, id));
+            memoryCache.Remove(MemoryCacheKey.MOVIES_ALL.ToString());
+
+            return movieFromDb;
+        }
+
+        public void DeleteMovie(string id) {
+            Movie movieFromDb = db.Movies.Find(id);
+
+            if (movieFromDb == null) {
+                return;
+            }
+
+            db.Movies.Remove(movieFromDb);
+            db.SaveChanges();
+
+            //Evict movies from cache
+            memoryCache.Remove(MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, id));
+            memoryCache.Remove(MemoryCacheKey.MOVIES_ALL.ToString());
+        }
+
+        public Movie updateActors(string movieId, List<string> actorsIds) {
+            var movieFromDb = db.Movies.Find(movieId);
+            //Check if movie Id exists
+            if (movieFromDb == null) {
+                return null;
+            }
+
+            //Verify if all actors exists and build the actors to insert
+            var movieActorsToInsert = new List<MovieActor>();
+            foreach (var actorId in actorsIds) {
+                var actor = db.Actors.Find(actorId);
+                if (actor == null) {
+                    //If an actor does not exist, return
+                    return null;
+                }
+                var movieActor = new MovieActor() {
+                    MovieId = movieFromDb.Id,
+                    ActorId = actor.Id
+                };
+                movieActorsToInsert.Add(movieActor);
+            }
+
+            //Delete all records in MovieActors for this movieId
+            var movieActorsToRemove = db.MovieActors.Where(movieActor => movieActor.MovieId == movieId).ToList();
+            db.MovieActors.RemoveRange(movieActorsToRemove);
+            db.SaveChanges();
+
+            //Save the new relationships
+            db.MovieActors.AddRange(movieActorsToInsert);
+            db.SaveChanges();
+
+            //Evict this entry from cache
+            memoryCache.Remove(MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, movieId));
+
+            //Return a refreshed instance of Movie
+            return GetMovie(movieId);
+        }
+    }
+}
 ```
 
 Register the newly created services into Startup and tweak a little the JSON Serializer.
 
 `Startup.cs`
 ```csharp
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using MoviesWebApi.Data;
+using MoviesWebApi.Services;
+using Newtonsoft.Json;
 
+namespace MoviesWebApi {
+    public class Startup {
+        public Startup(IConfiguration configuration) {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
+        // This method gets called by the runtime. Use this method to add services to the container.
+        public void ConfigureServices(IServiceCollection services) {
+            services.AddMvc()
+                .AddJsonOptions(options => {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMemoryCache();
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("AppDbContextDB")));
+            services.TryAddScoped<IMoviesService, MoviesService>();
+            services.TryAddScoped<IActorsService, ActorsService>();
+            services.TryAddScoped<IStudiosService, StudiosService>();
+        }
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
+            if (env.IsDevelopment()) {
+                app.UseDeveloperExceptionPage();
+            }
+
+            app.UseMvc();
+        }
+    }
+}
 ```
 
 Create a new `Migration` and apply it to the database:
@@ -552,13 +919,14 @@ Create a new `Migration` and apply it to the database:
 dotnet ef migrations add AddingMoreRelationships
 dotnet ef database update
 ```
-You will see how the new column StudioId was added to the table Movies as an FK, and how all the tables were created with their respective relationships.
+You will see how the new column `StudioId` was added to the table Movies as an FK, and how all the tables were created with their respective relationships.
 
 ## Return Resources instead of Entities
 
-If you see the serializded JSON response for a `Movie` entity you may notice something odd, the field `movieActors` holds an array of a serialized `MovieActors` objects, where the `Movie` part is always the same, which is the parent `Movie` object.
+If you see the serialized JSON response for a `Movie` entity you may notice something odd, the field `movieActors` holds an array of a serialized `MovieActors` objects, where the `Movie` part is always the same, which is the parent `Movie` object. The same happening with the `Studio` object.
 This is very useful for Entity objects managed by `EF Core` but not that useful for exposing that data as a response of a REST web service.
-A more useful approach would be to have a field `Actors` inside the `Movie` object.
+
+A more useful approach would be to only have the fields `actors` and `studio` inside the `Movie` object.
 
 Create resources to be returned instead of entities.
 Map using Automapper.
@@ -569,12 +937,20 @@ For example instead of returning:
 [
     {
         "id": "f8cafcac-0384-422a-b551-a7cdfcc1ee0e",
-        "name": "Sword of the Stranger",
+        "name": "Sword of the Strangers updated",
         "genre": "Anime",
         "year": 2001,
-        "duration": 122,
+        "duration": 123,
+        "studioId": "380a04fd-4408-4171-9ca4-7d1269b153fc",
         "createdDate": "2019-05-29T10:27:09.8873847",
         "lastUpdatedDate": "2019-05-29T10:27:09.9161859",
+        "studio": {
+            "id": "380a04fd-4408-4171-9ca4-7d1269b153fc",
+            "name": "Bones",
+            "createdDate": "2019-06-06T22:59:47.0024312",
+            "lastUpdatedDate": "2019-06-06T22:59:47.0025235",
+            "movies": []
+        },
         "movieActors": [
             {
                 "movieId": "f8cafcac-0384-422a-b551-a7cdfcc1ee0e",
@@ -604,6 +980,12 @@ Better return:
         "duration": 122,
         "createdDate": "2019-05-29T10:27:09.8873847",
         "lastUpdatedDate": "2019-05-29T10:27:09.9161859",
+        "studio": {
+            "id": "380a04fd-4408-4171-9ca4-7d1269b153fc",
+            "name": "Bones",
+            "createdDate": "2019-06-06T22:59:47.0024312",
+            "lastUpdatedDate": "2019-06-06T22:59:47.0025235"
+        },
         "actors": [
             {
               "id": "9f1fd5b1-0f01-4dc8-9c57-91aee00655de",
