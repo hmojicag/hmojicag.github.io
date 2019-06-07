@@ -45,9 +45,8 @@ And register the service to the IoC engine in `Startup`.
 
 `src\Services\IMoviesService.cs`
 <details>
-  <summary>IMoviesService.cs click to expand</summary>
+  <summary>IMoviesService.cs click to expand</summary><p>
 
-  
   ```csharp
   using System.Collections.Generic;
   using MoviesWebApi.Models;
@@ -62,7 +61,7 @@ And register the service to the IoC engine in `Startup`.
       }
   }
   ```
-</details>
+</p></details>
 
 `src\Services\MoviesService.cs`
 ```csharp
