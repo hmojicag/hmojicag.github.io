@@ -543,7 +543,7 @@ namespace MoviesWebApi.Controllers {
             db.Movies.Update(movieFromDb);
             db.SaveChanges();
 
-            return movie;
+            return movieFromDb;
         }
 
         [HttpDelete("{id}")]
@@ -563,6 +563,10 @@ namespace MoviesWebApi.Controllers {
     }
 }
 ```
+
+Watch closely the terminal and see what SQL code gets executed, for example, for a creation of an entity I got the next log message:
+
+![Log showing the SQL code executed by EF Core](../assets/images/workshop-webapi-aspnetcore/session2-EFCore-SQL.PNG)
 
 Congratulations, you have your first fully functionally API.
 In the next Session we will see good practices about developing web apis and why is not really good to have all the logic in the Controller, but for now fell happy, you did it!!

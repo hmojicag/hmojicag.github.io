@@ -425,14 +425,13 @@ public class SampleClass
 All classes and class members can specify what access level they provide to other classes by using access modifiers.
 
 The following access modifiers are available:
-|C# Modifier|Definition|
-|------------------|----------------|
-|[public](../../../csharp/language-reference/keywords/public.md)|The type or member can be accessed by any other code in the same assembly or another assembly that references it.|
-|[private](../../../csharp/language-reference/keywords/private.md)|The type or member can only be accessed by code in the same class.|
-|[protected](../../../csharp/language-reference/keywords/protected.md)|The type or member can only be accessed by code in the same class or in a derived class.|
-|[internal](../../../csharp/language-reference/keywords/internal.md)|The type or member can be accessed by any code in the same assembly, but not from another assembly.|
-|[protected internal](../../../csharp/language-reference/keywords/protected-internal.md)|The type or member can be accessed by any code in the same assembly, or by any derived class in another assembly.|
-|[private protected](../../../csharp/language-reference/keywords/private-protected.md)|The type or member can be accessed by code in the same class or in a derived class within the base class assembly.|
+The following six accessibility levels can be specified using the access modifiers:
+* **public**: Access is not restricted.
+* **protected**: Access is limited to the containing class or types derived from the containing class.
+* **internal**: Access is limited to the current assembly.
+* **protected internal**: Access is limited to the current assembly or types derived from the containing class.
+* **private**: Access is limited to the containing type.
+* **private protected**: Access is limited to the containing class or types derived from the containing class within the current assembly.
 
 ## Instantiating Classes
 

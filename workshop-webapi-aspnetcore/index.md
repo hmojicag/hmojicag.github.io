@@ -33,5 +33,5 @@ This course is oriented to experienced developers who have worked with other pro
 
 1. [Session 1 - Introduction to C# and .Net Core]({{ site.baseurl }}{% link workshop-webapi-aspnetcore/session1.md %})
 2. [Session 2 - HTTP and ASP.Net Core]({{ site.baseurl }}{% link workshop-webapi-aspnetcore/session2.md %})
-3. [Session 3 - ASP.Net Core Good Practices]({{ site.baseurl }}{% link workshop-webapi-aspnetcore/session3.md %})
+3. [Session 3 - ASP.Net Core and WebAPI Basics]({{ site.baseurl }}{% link workshop-webapi-aspnetcore/session3.md %})
 4. [Session 4 - Http Clients and Production Environment]({{ site.baseurl }}{% link workshop-webapi-aspnetcore/session4.md %})
