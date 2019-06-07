@@ -46,6 +46,7 @@ And register the service to the IoC engine in `Startup`.
 `src\Services\IMoviesService.cs`
 <details>
   <summary>IMoviesService.cs click to expand</summary>
+
   
   ```csharp
   using System.Collections.Generic;
