@@ -928,8 +928,8 @@ This is very useful for Entity objects managed by `EF Core` but not that useful 
 
 A more useful approach would be to only have the fields `actors` and `studio` inside the `Movie` object.
 
-Create resources to be returned instead of entities.
-Map using Automapper.
+For doing this, we need to have a dedicated object to be serialized for each entity type object, these dedicated objects are sometimes called `DTO` (data transfer object).
+
 For example instead of returning:
 
 `GET http://localhost:5000/api/movies/`
@@ -997,3 +997,366 @@ Better return:
     }
 ]
 ```
+
+Now, create these `DTO` classes in a new folder in `src/Dto`:
+
+`src\Dto\StudioDto.cs`
+```csharp
+using System;
+
+namespace MoviesWebApi.Dto {
+    public class StudioDto {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastUpdatedDate { get; set; }
+    }
+}
+```
+
+`src\Dto\ActorDto.cs`
+```csharp
+using System;
+
+namespace MoviesWebApi.Dto {
+    public class ActorDto {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastUpdatedDate { get; set; }
+    }
+}
+```
+
+`src\Dto\MovieDto.cs`
+```csharp
+using System;
+using System.Collections.Generic;
+
+namespace MoviesWebApi.Dto {
+    public class MovieDto {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Genre { get; set; }
+        public int Year { get; set; }
+        public int Duration { get; set; }
+        public StudioDto Studio { get; set; }
+        public List<ActorDto> Actors { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastUpdatedDate { get; set; }
+    }
+}
+```
+
+Create a static `utils` class that will map the entity object to a DTO type object.
+
+`src\Utils\Mapper.cs`
+```csharp
+using System.Collections.Generic;
+using MoviesWebApi.Dto;
+using MoviesWebApi.Models;
+
+namespace MoviesWebApi.Utils {
+    public static class Mapper {
+
+        public static ActorDto MapActor(Actor actor) {
+            var actorDto = new ActorDto();
+            actorDto.Id = actor.Id;
+            actorDto.Name = actor.Name;
+            actorDto.LastUpdatedDate = actor.LastUpdatedDate;
+            actorDto.CreatedDate = actor.CreatedDate;
+            return actorDto;
+        }
+
+        public static StudioDto MapStudio(Studio studio) {
+            var studioDto = new StudioDto() {
+                Id = studio.Id,
+                Name = studio.Name,
+                LastUpdatedDate = studio.LastUpdatedDate,
+                CreatedDate = studio.CreatedDate
+            };
+            return studioDto;
+        }
+
+        public static MovieDto MapMovie(Movie movie) {
+            var movieDto = new MovieDto() {
+                Id = movie.Id,
+                Name = movie.Name,
+                Genre = movie.Genre,
+                Year = movie.Year,
+                Duration = movie.Duration,
+                LastUpdatedDate = movie.LastUpdatedDate,
+                CreatedDate = movie.CreatedDate
+            };
+
+            if (movie.Studio != null) {
+                movieDto.Studio = MapStudio(movie.Studio);
+            }
+
+            if (movie.MovieActors != null && movie.MovieActors.Count > 0) {
+                movieDto.Actors = new List<ActorDto>();
+                foreach (var movieActor in movie.MovieActors) {
+                    movieDto.Actors.Add(MapActor(movieActor.Actor));
+                }
+            }
+
+            return movieDto;
+        }
+    }
+}
+```
+
+Now update the Controller and Services to return the DTO object instead of the entity object, also add the method that will map the dto object
+
+`src\Controllers\MoviesController.cs`
+```csharp
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using MoviesWebApi.Dto;
+using MoviesWebApi.Models;
+using MoviesWebApi.Services;
+
+namespace MoviesWebApi.Controllers {
+
+    [Route("api/movies")]
+    [ApiController]
+    public class MoviesController : ControllerBase {
+
+        private IMoviesService moviesService;
+
+        public MoviesController(IMoviesService moviesService) {
+            this.moviesService = moviesService;
+        }
+
+        [HttpGet]
+        //GET api/movies
+        public ActionResult<IEnumerable<MovieDto>> GetAllMovies() {
+            return moviesService.GetAllMovies();
+        }
+
+        [HttpGet("{id}")]
+        //GET api/movies/{id}
+        public ActionResult<MovieDto> GetMovie(string id) {
+            var movie = moviesService.GetMovie(id);
+
+            if (movie == null) {
+                return NotFound();
+            }
+
+            return movie;
+        }
+
+        [HttpPost]
+        //POST api/movies
+        //Payload: A Json representing the Movie object
+        public ActionResult<MovieDto> CreateMovie(Movie movie) {
+            return moviesService.CreateMovie(movie);
+        }
+
+        [HttpPut("{id}")]
+        //PUT api/movies/{id}
+        //Payload: A Json representing the Movie object
+        public ActionResult<MovieDto> UpdateMovie(string id, Movie movie) {
+            var updatedMovie = moviesService.UpdateMovie(id, movie);
+
+            if (updatedMovie == null) {
+                return NotFound();
+            }
+
+            return updatedMovie;
+        }
+
+        [HttpDelete("{id}")]
+        //DELETE api/movies/{id}
+        public ActionResult DeleteMovie(string id) {
+            moviesService.DeleteMovie(id);
+            return NoContent();
+        }
+
+        [HttpPut("{movieId}/actors")]
+        //PUT api/movies/{movieId}/actors
+        //Payload: A Json array of actors ids
+        public ActionResult<MovieDto> updateActors(string movieId, List<string> actorsIds) {
+            var updatedMovie = moviesService.UpdateActors(movieId, actorsIds);
+
+            if (updatedMovie == null) {
+                return NotFound();
+            }
+
+            return updatedMovie;
+        }
+
+    }
+}
+```
+
+`src\Services\IMoviesService`
+```csharp
+using System.Collections.Generic;
+using MoviesWebApi.Dto;
+using MoviesWebApi.Models;
+
+namespace MoviesWebApi.Services {
+    public interface IMoviesService {
+        List<MovieDto> GetAllMovies();
+        MovieDto GetMovie(string id);
+        MovieDto CreateMovie(Movie movie);
+        MovieDto UpdateMovie(string id, Movie movie);
+        void DeleteMovie(string id);
+        MovieDto UpdateActors(string movieId, List<string> actorsIds);
+    }
+}
+```
+
+`src\Services\MoviesService`
+```csharp
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using MoviesWebApi.Data;
+using MoviesWebApi.Dto;
+using MoviesWebApi.MemoryCache;
+using MoviesWebApi.Models;
+using MoviesWebApi.Utils;
+
+namespace MoviesWebApi.Services {
+    public class MoviesService : IMoviesService {
+
+        private AppDbContext db;
+        private IMemoryCache memoryCache;
+
+        public MoviesService(AppDbContext db, IMemoryCache memoryCache) {
+            this.db = db;
+            this.memoryCache = memoryCache;
+        }
+
+        //Now we will get all movies from the InMemoryCache which are stored under the key "MOVIES_ALL"
+        //If the entry in the cache does not exists (first time, cache was expired or evicted)
+        //then it will call the lambda function which receives an ICacheEntry as parameter and returns
+        //the values for that entry.
+        public List<MovieDto> GetAllMovies() {
+            return memoryCache.GetOrCreate(
+                MemoryCacheKey.MOVIES_ALL.ToString(), cacheEntry => {
+                    cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+                    return db.Movies
+                        .Include(movie => movie.Studio)
+                        .Include(movie => movie.MovieActors)
+                        .ThenInclude(movieActor => movieActor.Actor)
+                        .ToList()
+                        .ConvertAll(Mapper.MapMovie);
+                });
+        }
+
+
+        public MovieDto GetMovie(string id) {
+            var movie = memoryCache.GetOrCreate(
+                MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, id),
+                cacheEntry => GetMovieFromDb(cacheEntry, id));
+            return Mapper.MapMovie(movie);
+        }
+
+        //Instead of creating an anonymous method, call this one for fetching data from db
+        private Movie GetMovieFromDb(ICacheEntry cacheEntry, string id) {
+            cacheEntry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(30);
+            return db.Movies
+                .Include(movie => movie.Studio)
+                .Include(movie => movie.MovieActors)
+                .ThenInclude(movieActor => movieActor.Actor)
+                .First(movie => movie.Id.Equals(id));
+        }
+
+        public MovieDto CreateMovie(Movie movie) {
+            db.Movies.Add(movie);
+            db.SaveChanges();
+            //Evict cache with all movies
+            memoryCache.Remove(MemoryCacheKey.MOVIES_ALL.ToString());
+            return Mapper.MapMovie(movie);
+        }
+
+        public MovieDto UpdateMovie(string id, Movie movie) {
+            Movie movieFromDb = db.Movies.Find(id);
+
+            if (movieFromDb == null) {
+                return null;
+            }
+
+            //Copy all modifiable fields
+            movieFromDb.Name = movie.Name;
+            movieFromDb.Year = movie.Year;
+            movieFromDb.Genre = movie.Genre;
+            movieFromDb.Duration = movie.Duration;
+            movieFromDb.StudioId = movie.StudioId;
+            movieFromDb.LastUpdatedDate = DateTime.Now;
+
+            db.Movies.Update(movieFromDb);
+            db.SaveChanges();
+
+            //Evict this entry from cache
+            memoryCache.Remove(MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, id));
+            memoryCache.Remove(MemoryCacheKey.MOVIES_ALL.ToString());
+
+            //Return a refreshed instance of Movie
+            return GetMovie(id);
+        }
+
+        public void DeleteMovie(string id) {
+            Movie movieFromDb = db.Movies.Find(id);
+
+            if (movieFromDb == null) {
+                return;
+            }
+
+            db.Movies.Remove(movieFromDb);
+            db.SaveChanges();
+
+            //Evict movies from cache
+            memoryCache.Remove(MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, id));
+            memoryCache.Remove(MemoryCacheKey.MOVIES_ALL.ToString());
+        }
+
+        public MovieDto UpdateActors(string movieId, List<string> actorsIds) {
+            var movieFromDb = db.Movies.Find(movieId);
+            //Check if movie Id exists
+            if (movieFromDb == null) {
+                return null;
+            }
+
+            //Verify if all actors exists and build the actors to insert
+            var movieActorsToInsert = new List<MovieActor>();
+            foreach (var actorId in actorsIds) {
+                var actor = db.Actors.Find(actorId);
+                if (actor == null) {
+                    //If an actor does not exist, return
+                    return null;
+                }
+                var movieActor = new MovieActor() {
+                    MovieId = movieFromDb.Id,
+                    ActorId = actor.Id
+                };
+                movieActorsToInsert.Add(movieActor);
+            }
+
+            //Delete all records in MovieActors for this movieId
+            var movieActorsToRemove = db.MovieActors.Where(movieActor => movieActor.MovieId == movieId).ToList();
+            db.MovieActors.RemoveRange(movieActorsToRemove);
+            db.SaveChanges();
+
+            //Save the new relationships
+            db.MovieActors.AddRange(movieActorsToInsert);
+            db.SaveChanges();
+
+            //Evict this entry from cache
+            memoryCache.Remove(MemoryCacheKeyGenerator.Generate(MemoryCacheKey.MOVIE_BY_ID, movieId));
+
+            //Return a refreshed instance of Movie
+            return GetMovie(movieId);
+        }
+    }
+}
+```
+
+
+And that's it, run it to test that everything works as expected.
+Now your API is returning more meaningful values to the clients that consume it.
