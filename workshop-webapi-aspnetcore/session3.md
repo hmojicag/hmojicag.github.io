@@ -516,8 +516,6 @@ namespace MoviesWebApi.Data {
         public DbSet<Studio> Studios { get; set; }
         public DbSet<MovieActor> MovieActors { get; set; }
 
-        public DbSet<Consumer> Consumers { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             //We are going to put here all the Model characteristics
             //Like relationships between tables, Indexes, Primary Keys...
@@ -547,12 +545,6 @@ namespace MoviesWebApi.Data {
 
             modelBuilder.Entity<MovieActor>()//MovieActors. Configure Primary Key
                 .HasKey(movieActor => new {movieActor.ActorId, movieActor.MovieId});
-
-            modelBuilder.Entity<Consumer>()//Configure ApiKey to be a unique index
-                .HasIndex(consumer => consumer.ApiKey)
-                .IsUnique();
-            modelBuilder.Entity<Consumer>()
-                .HasIndex(consumer => consumer.Name);
         }
     }
 }
