@@ -470,6 +470,29 @@ curl -X POST \
 And that's it, now your API is secured by using the Bearer Token Authentication and JWT.
 Now every call must contain a valid token (for the specified endpoints) or it will be rejected.
 
+
+## Publish your API to binaries
+
+You can use the `dotnet publish` command to create the binaries for your project and have it ready for production.
+Check the official documentation for more info: [link](https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?tabs=netcore21).
+
+Execute the next command:
+
+```
+dotnet publish -c Release
+```
+
+All the binaries needed for run and deployment are now compiled in `bin\Release\netcoreapp2.2\publish`.
+If you want to run that binary just do:
+
+```
+dotnet bin\Release\netcoreapp2.2\publish\MoviesWebApi.dll
+```
+
+Now, that `dll` can be deployed to **IIS**, **Azure**, configured a reverse proxy with **Nginx**, put into a **Docker** container or in any way that fits your requirements.
+
+In the next section you can see many types of deployments available for an ASP.Net Core application.
+
 ## Host and deploy ASP.NET Core by Microsoft
 
 There are many ways you can deploy your `Asp.net Core` app, this document from the official page from Microsoft summarizes the most common ones:
