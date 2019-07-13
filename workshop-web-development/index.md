@@ -12,9 +12,9 @@ date: 2019-07-12
 ## Session 1
 
 ### Slides
-[1 - HTML](https://drive.google.com/open?id=1baW7G06vJlYV4mHkgYjSpNCUrAYENz5E)
-[2 - HTML and CSS](https://drive.google.com/open?id=1xtRO1NSBGyOGUWKgGcQ_Z5Fr8hFzeSg_)
-[3 - Bootstrap](https://drive.google.com/open?id=11XkL2LigvbBN7H-eujWJhwjR8BaRLWJ_)
+* [1 - HTML](https://drive.google.com/open?id=1baW7G06vJlYV4mHkgYjSpNCUrAYENz5E)
+* [2 - HTML and CSS](https://drive.google.com/open?id=1xtRO1NSBGyOGUWKgGcQ_Z5Fr8hFzeSg_)
+* [3 - Bootstrap](https://drive.google.com/open?id=11XkL2LigvbBN7H-eujWJhwjR8BaRLWJ_)
 
 ### Online Lectures
 
@@ -26,9 +26,9 @@ date: 2019-07-12
 
 ### Slides
 
-[4 - Javascript](https://drive.google.com/open?id=1kNhSHAUW9OZSHOke4djtz7lZZZ-v5d9T)
-[5 - .Net Core](https://drive.google.com/open?id=1vz-UHiFV8_u-kKu8TwtODOFaGx-EwCFi)
-[6 - Intro to Razor Pages](https://drive.google.com/open?id=1dwOa0nTkHgROwxOhYPyi_rvEY_OD6bjy)
+* [4 - Javascript](https://drive.google.com/open?id=1kNhSHAUW9OZSHOke4djtz7lZZZ-v5d9T)
+* [5 - .Net Core](https://drive.google.com/open?id=1vz-UHiFV8_u-kKu8TwtODOFaGx-EwCFi)
+* [6 - Intro to Razor Pages](https://drive.google.com/open?id=1dwOa0nTkHgROwxOhYPyi_rvEY_OD6bjy)
 
 ### Online Lectures
 
@@ -40,9 +40,9 @@ date: 2019-07-12
 
 ### Slides
 
-[7 - Razor Pages GET requests](https://drive.google.com/open?id=1cJ-MROORY1NpTrJcLy3lRTeMeIT86dTM)
-[8 - HTTP](https://drive.google.com/open?id=1GMkh4y9zXNYoBcKUdpH7dAFjwIU4vBTy)
-[9 - Razor Pages POST Requests](https://drive.google.com/open?id=1zSf8cuK2RvWKqTcbWARVMB70jb7Ue_Ix)
+* [7 - Razor Pages GET requests](https://drive.google.com/open?id=1cJ-MROORY1NpTrJcLy3lRTeMeIT86dTM)
+* [8 - HTTP](https://drive.google.com/open?id=1GMkh4y9zXNYoBcKUdpH7dAFjwIU4vBTy)
+* [9 - Razor Pages POST Requests](https://drive.google.com/open?id=1zSf8cuK2RvWKqTcbWARVMB70jb7Ue_Ix)
 
 ### Online Lectures
 
@@ -54,9 +54,9 @@ date: 2019-07-12
 
 ### Slides
 
-[10 - SQL](https://drive.google.com/open?id=1ritzt9Ch-4KII-x-3W7hkHVZ2TV4-v-x)
-[11 -  Razor Pages and EF Core](https://drive.google.com/open?id=1lLdaV0BiUmfvIPn4dvw-y7Dwlzz9xXfJ)
-[12 - Using Identity Framework](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio)
+* [10 - SQL](https://drive.google.com/open?id=1ritzt9Ch-4KII-x-3W7hkHVZ2TV4-v-x)
+* [11 -  Razor Pages and EF Core](https://drive.google.com/open?id=1lLdaV0BiUmfvIPn4dvw-y7Dwlzz9xXfJ)
+* [12 - Using Identity Framework](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-2.2&tabs=visual-studio)
 
 ### Online Lectures
 
