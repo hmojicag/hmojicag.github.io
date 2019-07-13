@@ -767,7 +767,7 @@ namespace MoviesWebApi.Services {
         Movie CreateMovie(Movie movie);
         Movie UpdateMovie(string id, Movie movie);
         void DeleteMovie(string id);
-        Movie updateActors(string movieId, List<string> actorsIds);
+        Movie UpdateActors(string movieId, List<string> actorsIds);
     }
 }
 ```
@@ -875,7 +875,7 @@ namespace MoviesWebApi.Services {
             memoryCache.Remove(MemoryCacheKey.MOVIES_ALL.ToString());
         }
 
-        public Movie updateActors(string movieId, List<string> actorsIds) {
+        public Movie UpdateActors(string movieId, List<string> actorsIds) {
             var movieFromDb = db.Movies.Find(movieId);
             //Check if movie Id exists
             if (movieFromDb == null) {
