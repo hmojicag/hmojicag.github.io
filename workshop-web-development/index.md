@@ -38,6 +38,10 @@ date: 2019-07-12
 
 ## Session 3
 
+### Sample code
+
+* [Sample Code](https://github.com/hmojicag/workshop-web-development-samples)
+
 ### Slides
 
 * [7 - Razor Pages GET requests](https://drive.google.com/open?id=1cJ-MROORY1NpTrJcLy3lRTeMeIT86dTM)
