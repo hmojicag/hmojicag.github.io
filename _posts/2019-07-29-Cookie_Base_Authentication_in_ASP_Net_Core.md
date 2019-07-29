@@ -12,6 +12,8 @@ If you do not know what's Asp.net Core Identity check this page: [Introduction t
 
 But some times when you are creating a Web System that needs to integrate with some legacy code and pre-existing user data in a database then you don't want all the auto-generated code of Identity  since you don't want new tables to be created for handling users and roles since they are already there.
 
+Here is the full code developed for this example: [hmojicag/Cookie_Base_Authentication_in_ASP_Net_Core](https://github.com/hmojicag/Cookie_Base_Authentication_in_ASP_Net_Core)
+
 Let's start by creating a new `webapp` project:
 
 ```

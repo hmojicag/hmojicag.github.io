@@ -41,6 +41,7 @@ date: 2019-07-12
 ### Sample code
 
 * [Sample Code](https://github.com/hmojicag/workshop-web-development-samples)
+* [Cookie Based Authentication](https://hmojicag.github.io/blog/2019/07/29/Cookie_Base_Authentication_in_ASP_Net_Core)
 
 ### Slides
 
