@@ -86,7 +86,7 @@ namespace Surfingweb {
 Now let's build a Login Page:
 
 `/Pages/Account/Login.cshtml`
-```csharp
+```html
 @page
 @model LoginModel
 @{
@@ -182,7 +182,7 @@ namespace CookieBasedWebApp.Pages.Account {
 Before you test, add some logic to `Index` to recognize the user that is logged. And also add the `[Authorize]` attribute to denote that nobody can access this page if it's not authenticated first.
 
 `/Pages/Index.cshtml`
-```csharp
+```html
 @page
 @model IndexModel
 @{
@@ -233,7 +233,7 @@ Now let's finish this post by adding some extra features.
 Create the `AccessDenied` page:
 
 `/Account/AccessDenied.cshtml`
-```csharp
+```html
 @page
 @model AccessDeniedModel
 
@@ -258,7 +258,7 @@ namespace CookieBasedWebApp.Pages.Account {
 Now add a page that only Admins can see so you test this AccessDenied feature.
 
 `/AdminOnly.cshtml`
-```csharp
+```html
 @page
 @model AdminOnlyModel
 
