@@ -260,4 +260,4 @@ namespace CookieBasedWebApp.Pages {
 
 Awesome, now run again the code, log in and try to access `/AdminOnly`, you should get redirected to `/Account/AccessDenied`.
 
-And that's it, you added Authentication to your page, be happy now
+And that's it, you added Authentication to your page, be happy now.
