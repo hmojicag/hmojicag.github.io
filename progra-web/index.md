@@ -26,7 +26,7 @@ A tale about how programming was made in the era of punched cards: [Computer His
 ## This Section is for FIME UANL Students Only
 
 * [This is the Moodle Page](http://moodle.academicos.com.mx/)
-* [This is the Calendar for Agosto - Diciembre 2019](https://docs.google.com/document/d/1fzO59SvlPxUqsLmj_QPXFtnyVxlfqf4rDJeYS8Z_SIE/edit?usp=sharing)
+* [This is the Calendar for Enero - Junio 2020](https://docs.google.com/document/d/1QFF4nPaaAz6XrBW8rTuLz27XXeKyi3oO8cblKsXcb8Q/edit?usp=sharing)
 * [Slides](https://drive.google.com/drive/folders/0B3WC4CiccSmVeEN2WVBNN1owQkE?usp=sharing)
 * [Books](https://drive.google.com/drive/folders/0B3WC4CiccSmVcUR6STNqMUgtUTg?usp=sharing)
 * [How to Sign Up in Moodle](https://docs.google.com/document/d/1z3NbPut3HGVdspBxTaQPQNATQl1WXr6cgVhIsQG4b3w/edit?usp=sharing)
