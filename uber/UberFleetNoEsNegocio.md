@@ -117,50 +117,49 @@ Voy a poner números casi reales de acuerdo a mi experiencia y voy a hacer las s
 Recuerda que cada patrón te retiene impuestos como si dicho monto fuera tu único ingreso.
 Ahí te encargo cuando se sumen todos en la declaración anual.
 
-**Ingresos en promedio, mensuales**
-$30,0000 - Salario 1 (Trabajo de tiempo completo)
-$3,000 - Salario 2 (Trabajo de tiempo parcial)
-$5,000 - Actividad empresarial/profesional
-$20,000 - Uber
-______________________________________________________
-$58,000 - Total de ingresos mensuales según lo que ve el SAT
-$48,000 - Total de ingresos mensuales realmente tuyos
+**Ingresos en promedio, mensuales**  
+$30,0000 - Salario 1 (Trabajo de tiempo completo)  
+$3,000 - Salario 2 (Trabajo de tiempo parcial)  
+$5,000 - Actividad empresarial/profesional  
+$20,000 - Uber  
+______________________________________________________  
+$58,000 - Total de ingresos mensuales según lo que ve el SAT  
+$48,000 - Total de ingresos mensuales realmente tuyos  
 
-**Compras en promedio, mensuales**
-$5,000 - Gasolinas (las que pagó tu chofer)
-$1,000 - Mantenimientos (Aprox un cambio de aceite al mes)
-$500 - Llantas (Aprox un cambio de llantas al año, de las baratitas)
-$1,200 - Seguro (El más barato para Uber es el de Axxa y anda entre $16,000 - $20,000 / año)
-$500 - Alguna reparacíón, un tallón, un golpe leve, un cristalazo
-___________________________________________________________
-$8,200 - Total de compras facturadas
-$3,200 - Total Hechas por ti
+**Compras en promedio, mensuales**  
+$5,000 - Gasolinas (las que pagó tu chofer)  
+$1,000 - Mantenimientos (Aprox un cambio de aceite al mes)  
+$500 - Llantas (Aprox un cambio de llantas al año, de las baratitas)  
+$1,200 - Seguro (El más barato para Uber es el de Axxa y anda entre $16,000 - $20,000 / año)  
+$500 - Alguna reparacíón, un tallón, un golpe leve, un cristalazo  
+___________________________________________________________  
+$8,200 - Total de compras facturadas  
+$3,200 - Total Hechas por ti  
 
-**Retenciones/Pagos de impuestos mensuales**
-$5,300 - Salario 1 (solo ISR)
-$0 - Salario 2 (solo ISR, no te retienen porque caes en el tabulador más bajo)
-$4,000 - Actividad empresarial + Uber (se declaran juntos mensualmente)
-______________________________________________________________________________
-$9,300 - Total ISR mensual
+**Retenciones/Pagos de impuestos mensuales**  
+$5,300 - Salario 1 (solo ISR)  
+$0 - Salario 2 (solo ISR, no te retienen porque caes en el tabulador más bajo)  
+$4,000 - Actividad empresarial + Uber (se declaran juntos mensualmente)  
+______________________________________________________________________________  
+$9,300 - Total ISR mensual  
 
-**Anual según lo que ve el SAT**
-+ $696,000 - Ingresos según lo que ve el SAT
-- $98,400  - Compras
-= $597,600 - Base gravable
+**Anual según lo que ve el SAT**  
++ $696,000 - Ingresos según lo que ve el SAT  
+- $98,400  - Compras  
+= $597,600 - Base gravable  
 
-+ 127,793  - Impuesto del ingreso gravado
-- $111,600 - Impuestos retenidos
-= $16,193  - Todavía le debes al SAT esto (espero hayas pedido factura y pagado con tarjeta en todos esos gastos médico que tuviste)...
++ 127,793  - Impuesto del ingreso gravado  
+- $111,600 - Impuestos retenidos  
+= $16,193  - Todavía le debes al SAT esto (espero hayas pedido factura y pagado con tarjeta en todos esos gastos médico que tuviste)...  
 
-**Resumen simplificado mensual**
-
-+ $10,000 - Le cobras a tu chofer (si todo sale bien)
-- $3,200  - Mantenimientos/Reparaciones, seguros
-- $1,300  - Excedente de Impuestos anuales / 12
-- $1,000  - Lo que pagas de impuestos de tu chofer (que ni te corresponde a ti pagarlos)
-- $3,000  - Lo que te retiene ya de impuestos Uber
-_____________________________________________________________________________________
-$1,500    - Tus ganancias reales por Uber por mes y ni conté los honorarios del contador y la depresiación del vehículo
+**Resumen simplificado mensual**  
++ $10,000 - Le cobras a tu chofer (si todo sale bien)  
+- $3,200  - Mantenimientos/Reparaciones, seguros  
+- $1,300  - Excedente de Impuestos anuales / 12  
+- $1,000  - Lo que pagas de impuestos de tu chofer (que ni te corresponde a ti pagarlos)  
+- $3,000  - Lo que te retiene ya de impuestos Uber  
+_____________________________________________________________________________________  
+$1,500    - Tus ganancias reales por Uber por mes y ni conté los honorarios del contador y la depresiación del vehículo  
 
 ## En resumen
 
