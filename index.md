@@ -22,3 +22,12 @@ This is the online course list instructed by me at FIME UANL. I hope you will ha
 ## My Comic:
 
 [AASS: AASS is not Another Stupid Storyboard]({{ site.baseurl }}{% link aass/index.md %})
+
+## Blog
+[Blog Index]({{ site.baseurl }}{% link blog/index.html %})
+
+## Workshop Web Development with Razor Pages
+[Workshop Web Development]({{ site.baseurl }}{% link workshop-web-development/index.md %})
+
+## Workshop Web API development with ASP.Net Core
+[Workshop Web API Development]({{ site.baseurl }}{% link workshop-webapi-aspnetcore/index.md %})
