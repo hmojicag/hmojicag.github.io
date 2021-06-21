@@ -49,3 +49,8 @@ Tunnel all communication for port 1433 to the Jump Server, you can do that by ru
 `ssh -L 1433:sqlserverdb.database.windows.net:1433 user@.hostname.com`
 
 Now test again the database connection, this time all communication to `sqlserverdb.database.windows.net` will locally send to `127.0.0.1` into the SSH tunnel which will in tun forward it to the Jump Server and from there actually connect to `sqlserverdb.database.windows.net`.
+
+
+### Troubleshooting
+
+If you don't use the hosts file and you just connect to your localhost tunneled connection you will get the next error: `A connection was successfully established with the server, but then an error occurred during the pre-login handshake. (provider: SSL Provider, error: 0 - The wait operation timed out.)`. It looks like using `localhost`/`127.0.0.1` or any equivalent won't work because of some sort of SSL authentiation?
