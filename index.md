@@ -19,6 +19,10 @@ This is the online course list instructed by me at FIME UANL. I hope you will ha
 * [Human Machine Interface]({{ site.baseurl }}{% link hmi/index.md %}).
 * [Web Development using .Net Core 2]({{ site.baseurl }}{% link progra-web/index.md %}).
 
+## My Comic:
+
+[AASS: AASS is not Another Stupid Storyboard]({{ site.baseurl }}{% link aass/index.md %})
+
 ## Blog
 [Blog Index]({{ site.baseurl }}{% link blog/index.html %})
 
