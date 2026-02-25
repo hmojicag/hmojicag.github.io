@@ -3,17 +3,16 @@ layout: default
 title: Hazelsoft Technology Site
 ---
 
-Hello I'm Hazael Mojica, I'm a professional Software Developer living in Monterrey México, I like long fantasy books, programming, tacos and chihuahua dogs.
+Hello I'm Hazael Mojica, I'm a professional Software Developer, I like long fantasy books, programming, tacos and chihuahua dogs.
 
-Between my hobbies you'll find going hiking to the mountains, biking, expresso coffee and teaching tech stuff to strangers on the Internet.
-
-BTW I also have a full time job as developer and part time teacher in FIME UANL.
-
-Wanna learn something? Just scroll down...
+Between my hobbies you'll find going hiking to the mountains, biking, espresso coffee and sharing tech stuff in the Internet.
 
 ![](assets/images/yomerengues.jpg)
 
-This is the online course list instructed by me at FIME UANL. I hope you will have fun learning as much I had designing the courses.
+~~This is the online course list instructed by me at FIME UANL.~~ 
+This is the online course list that I used to teach at FIME UANL a while back when I was still a part time professor.
+
+I hope you will have fun learning as much I had designing the courses (**EDIT:** They are now outdated).
 
 ## [List of available courses](#header-1)
 * [Human Machine Interface]({{ site.baseurl }}{% link hmi/index.md %}).
